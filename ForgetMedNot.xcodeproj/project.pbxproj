@@ -1,0 +1,701 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		149390F0E10746B5B0967E6E /* MedicineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */; };
+		5C6EA2D52FEF498C0042D33C /* MedNotIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B324C470AAC47C18033741F /* MedNotIntent.swift */; };
+		5C6EA2D92FEF4FF40042D33C /* ForgetMedNotWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6AF82A0D3A33430D96EEB875 /* ForgetMedNotWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67D0C30895C4910A6A8CF1B /* ForgetMedNotWatchApp.swift */; };
+		6D93C9A669D942BBBEE920C4 /* MedicineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */; };
+		760FFFEB94A14E06A8368797 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */; };
+		89B0259CE225446D97BBB2DE /* ForgetMedNotWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C7D8605B2C2A4377B6B66205 /* ForgetMedNotWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		934CEEF0CDEE49D7A65C516E /* ForgetMedNotWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7ECFD31C291408ABA6333C4 /* ForgetMedNotWidget.swift */; };
+		A1CA24E1267046AE84017CFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FBD1E5900714D8895B8C5C8 /* Assets.xcassets */; };
+		C1269AAA65FE444CBA049AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D26ECD2BBF94A22B926F113 /* Assets.xcassets */; };
+		D1BD957D532F4F229579345E /* MedNotIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B324C470AAC47C18033741F /* MedNotIntent.swift */; };
+		E87C53C510A04C67BE89278A /* ForgetMedNotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B2580918E54B4FBAB29D45 /* ForgetMedNotApp.swift */; };
+		F055B7E45DEA45E6A1531787 /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EFDC80864943BBA9768270 /* WatchContentView.swift */; };
+		F9F1134B0468471792AF3852 /* ForgetMedNotWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AB11F37E4C4CE7B59E131B /* ForgetMedNotWidgetBundle.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D15608FA30EE4EEE9A00E19D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BD06B867F0BF4E20A77AC533 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EF126C2D36542C493636FD7;
+			remoteInfo = ForgetMedNotWidget;
+		};
+		EF1509C8BD7A4942BE54D49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BD06B867F0BF4E20A77AC533 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A0AFC64136F44D92A30E4A1A;
+			remoteInfo = ForgetMedNotWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5C6EA2D82FEF4FB30042D33C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5C6EA2D92FEF4FF40042D33C /* ForgetMedNotWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		807247CF908C43D3A5A31ABE /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				89B0259CE225446D97BBB2DE /* ForgetMedNotWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6059CEA8C514549A52FFBF0 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		04B2580918E54B4FBAB29D45 /* ForgetMedNotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetMedNotApp.swift; sourceTree = "<group>"; };
+		1D26ECD2BBF94A22B926F113 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2B324C470AAC47C18033741F /* MedNotIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedNotIntent.swift; sourceTree = "<group>"; };
+		4FBD1E5900714D8895B8C5C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		55EFDC80864943BBA9768270 /* WatchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContentView.swift; sourceTree = "<group>"; };
+		56AB11F37E4C4CE7B59E131B /* ForgetMedNotWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetMedNotWidgetBundle.swift; sourceTree = "<group>"; };
+		5C6EA2D22FEF48EB0042D33C /* ForgetMedNot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ForgetMedNot.entitlements; sourceTree = "<group>"; };
+		5C6EA2D32FEF490C0042D33C /* ForgetMedNotWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ForgetMedNotWatch.entitlements; sourceTree = "<group>"; };
+		5C6EA2D42FEF49320042D33C /* ForgetMedNotWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ForgetMedNotWidget.entitlements; sourceTree = "<group>"; };
+		5C6EA2DA2FEF51380042D33C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ForgetMedNotWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C6477455B3594C9098ED8070 /* ForgetMedNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForgetMedNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7D8605B2C2A4377B6B66205 /* ForgetMedNotWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForgetMedNotWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineManager.swift; sourceTree = "<group>"; };
+		F67D0C30895C4910A6A8CF1B /* ForgetMedNotWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetMedNotWatchApp.swift; sourceTree = "<group>"; };
+		F7ECFD31C291408ABA6333C4 /* ForgetMedNotWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetMedNotWidget.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		087C7120F3B149C8A7A6BA34 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A10282191547CBA10F2BDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE0CCB9446FA49D589BCA8EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2A6850AA428A416E9A39A219 /* ForgetMedNotWidget */ = {
+			isa = PBXGroup;
+			children = (
+				5C6EA2D42FEF49320042D33C /* ForgetMedNotWidget.entitlements */,
+				F7ECFD31C291408ABA6333C4 /* ForgetMedNotWidget.swift */,
+				56AB11F37E4C4CE7B59E131B /* ForgetMedNotWidgetBundle.swift */,
+				5C6EA2DA2FEF51380042D33C /* Info.plist */,
+			);
+			path = ForgetMedNotWidget;
+			sourceTree = "<group>";
+		};
+		5B1C0B617DB34F00A6F5C2A6 = {
+			isa = PBXGroup;
+			children = (
+				9F56C5BADE044408BC7BAD67 /* ForgetMedNot */,
+				C7297EEA05114E1D966994B6 /* ForgetMedNotWatch */,
+				2A6850AA428A416E9A39A219 /* ForgetMedNotWidget */,
+				C49790D09255466289914B2C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9F56C5BADE044408BC7BAD67 /* ForgetMedNot */ = {
+			isa = PBXGroup;
+			children = (
+				5C6EA2D22FEF48EB0042D33C /* ForgetMedNot.entitlements */,
+				04B2580918E54B4FBAB29D45 /* ForgetMedNotApp.swift */,
+				C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */,
+				CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */,
+				2B324C470AAC47C18033741F /* MedNotIntent.swift */,
+				4FBD1E5900714D8895B8C5C8 /* Assets.xcassets */,
+			);
+			path = ForgetMedNot;
+			sourceTree = "<group>";
+		};
+		C49790D09255466289914B2C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C6477455B3594C9098ED8070 /* ForgetMedNot.app */,
+				C7D8605B2C2A4377B6B66205 /* ForgetMedNotWatch.app */,
+				65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C7297EEA05114E1D966994B6 /* ForgetMedNotWatch */ = {
+			isa = PBXGroup;
+			children = (
+				5C6EA2D32FEF490C0042D33C /* ForgetMedNotWatch.entitlements */,
+				F67D0C30895C4910A6A8CF1B /* ForgetMedNotWatchApp.swift */,
+				55EFDC80864943BBA9768270 /* WatchContentView.swift */,
+				1D26ECD2BBF94A22B926F113 /* Assets.xcassets */,
+			);
+			path = ForgetMedNotWatch;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0EF126C2D36542C493636FD7 /* ForgetMedNotWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23EF40AEF7094F43BCDABCB5 /* Build configuration list for PBXNativeTarget "ForgetMedNotWidget" */;
+			buildPhases = (
+				C93CA4B10BD94E9EA6BFF438 /* Sources */,
+				9D2939552F80407F9BFF8A29 /* Resources */,
+				28A10282191547CBA10F2BDA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ForgetMedNotWidget;
+			productName = ForgetMedNotWidget;
+			productReference = 65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		A0AFC64136F44D92A30E4A1A /* ForgetMedNotWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68EB36444AA1480CB86B1736 /* Build configuration list for PBXNativeTarget "ForgetMedNotWatch" */;
+			buildPhases = (
+				0E05A7F9A99446CF861BAB36 /* Sources */,
+				ED12F20D9CA649D9ADD24979 /* Resources */,
+				087C7120F3B149C8A7A6BA34 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ForgetMedNotWatch;
+			productName = ForgetMedNotWatch;
+			productReference = C7D8605B2C2A4377B6B66205 /* ForgetMedNotWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A11B8F912AFF49D493E092EA /* ForgetMedNot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF51926A81B44CDDBC380388 /* Build configuration list for PBXNativeTarget "ForgetMedNot" */;
+			buildPhases = (
+				1C254B359B0F433E9ED8E8DB /* Sources */,
+				1055EAADEDB14C5F9A265B34 /* Resources */,
+				CE0CCB9446FA49D589BCA8EA /* Frameworks */,
+				807247CF908C43D3A5A31ABE /* Embed Watch Content */,
+				D6059CEA8C514549A52FFBF0 /* Embed Foundation Extensions */,
+				5C6EA2D82FEF4FB30042D33C /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D83543E66BC9481BB5A682D4 /* PBXTargetDependency */,
+				DB5853FE8D3D487F84766EF8 /* PBXTargetDependency */,
+			);
+			name = ForgetMedNot;
+			productName = ForgetMedNot;
+			productReference = C6477455B3594C9098ED8070 /* ForgetMedNot.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BD06B867F0BF4E20A77AC533 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					0EF126C2D36542C493636FD7 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					A0AFC64136F44D92A30E4A1A = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					A11B8F912AFF49D493E092EA = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 423A886B3D6744FDBB529F91 /* Build configuration list for PBXProject "ForgetMedNot" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5B1C0B617DB34F00A6F5C2A6;
+			productRefGroup = C49790D09255466289914B2C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A11B8F912AFF49D493E092EA /* ForgetMedNot */,
+				A0AFC64136F44D92A30E4A1A /* ForgetMedNotWatch */,
+				0EF126C2D36542C493636FD7 /* ForgetMedNotWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1055EAADEDB14C5F9A265B34 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1CA24E1267046AE84017CFE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D2939552F80407F9BFF8A29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED12F20D9CA649D9ADD24979 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1269AAA65FE444CBA049AE7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E05A7F9A99446CF861BAB36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AF82A0D3A33430D96EEB875 /* ForgetMedNotWatchApp.swift in Sources */,
+				F055B7E45DEA45E6A1531787 /* WatchContentView.swift in Sources */,
+				149390F0E10746B5B0967E6E /* MedicineManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C254B359B0F433E9ED8E8DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E87C53C510A04C67BE89278A /* ForgetMedNotApp.swift in Sources */,
+				760FFFEB94A14E06A8368797 /* ContentView.swift in Sources */,
+				5C6EA2D52FEF498C0042D33C /* MedNotIntent.swift in Sources */,
+				6D93C9A669D942BBBEE920C4 /* MedicineManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C93CA4B10BD94E9EA6BFF438 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				934CEEF0CDEE49D7A65C516E /* ForgetMedNotWidget.swift in Sources */,
+				F9F1134B0468471792AF3852 /* ForgetMedNotWidgetBundle.swift in Sources */,
+				D1BD957D532F4F229579345E /* MedNotIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D83543E66BC9481BB5A682D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A0AFC64136F44D92A30E4A1A /* ForgetMedNotWatch */;
+			targetProxy = EF1509C8BD7A4942BE54D49A /* PBXContainerItemProxy */;
+		};
+		DB5853FE8D3D487F84766EF8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0EF126C2D36542C493636FD7 /* ForgetMedNotWidget */;
+			targetProxy = D15608FA30EE4EEE9A00E19D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		162BF0BD1C7E4BE991925A4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_INTENTS_DEPLOYMENT_POSTPROCESSING = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = ForgetMedNot/ForgetMedNot.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = NMUNAF53M3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		257319FF3A3C413D8E4BE58B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = ForgetMedNotWatch/ForgetMedNotWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = NMUNAF53M3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_WKApplication = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.toddfeliciano.ForgetMedNot;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		4A966C208ED2420D82FDC41C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5514FC09EB4A4A00B4DD0535 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7F784D5780494CF28E53B002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = ForgetMedNotWatch/ForgetMedNotWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = NMUNAF53M3;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_WKApplication = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.toddfeliciano.ForgetMedNot;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		8020F2B904EB43C5A8007843 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_INTENTS_DEPLOYMENT_POSTPROCESSING = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = ForgetMedNot/ForgetMedNot.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = NMUNAF53M3;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BD1BFEED19A24A01991F5CF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = ForgetMedNotWidget/ForgetMedNotWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = NMUNAF53M3;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ForgetMedNotWidget/Info.plist;
+				INFOPLIST_KEY_NSExtensionPointIdentifier = "com.apple.widgetkit-extension";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot.ForgetMedNotWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_EMIT_MODULE_INTERFACE = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CBC1B5F0A71544AA9A441285 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = ForgetMedNotWidget/ForgetMedNotWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = NMUNAF53M3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ForgetMedNotWidget/Info.plist;
+				INFOPLIST_KEY_NSExtensionPointIdentifier = "com.apple.widgetkit-extension";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot.ForgetMedNotWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_EMIT_MODULE_INTERFACE = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		23EF40AEF7094F43BCDABCB5 /* Build configuration list for PBXNativeTarget "ForgetMedNotWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD1BFEED19A24A01991F5CF0 /* Debug */,
+				CBC1B5F0A71544AA9A441285 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		423A886B3D6744FDBB529F91 /* Build configuration list for PBXProject "ForgetMedNot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A966C208ED2420D82FDC41C /* Debug */,
+				5514FC09EB4A4A00B4DD0535 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		68EB36444AA1480CB86B1736 /* Build configuration list for PBXNativeTarget "ForgetMedNotWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F784D5780494CF28E53B002 /* Debug */,
+				257319FF3A3C413D8E4BE58B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF51926A81B44CDDBC380388 /* Build configuration list for PBXNativeTarget "ForgetMedNot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8020F2B904EB43C5A8007843 /* Debug */,
+				162BF0BD1C7E4BE991925A4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BD06B867F0BF4E20A77AC533 /* Project object */;
+}
