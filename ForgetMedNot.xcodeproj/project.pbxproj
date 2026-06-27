@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		149390F0E10746B5B0967E6E /* MedicineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */; };
 		5C6EA2D52FEF498C0042D33C /* MedNotIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B324C470AAC47C18033741F /* MedNotIntent.swift */; };
 		5C6EA2D92FEF4FF40042D33C /* ForgetMedNotWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5CFD228A2FF03D090078D8E5 /* MedicineManagerWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFD22892FF03D020078D8E5 /* MedicineManagerWatch.swift */; };
 		6AF82A0D3A33430D96EEB875 /* ForgetMedNotWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67D0C30895C4910A6A8CF1B /* ForgetMedNotWatchApp.swift */; };
 		6D93C9A669D942BBBEE920C4 /* MedicineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */; };
 		760FFFEB94A14E06A8368797 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */; };
@@ -86,6 +86,7 @@
 		5C6EA2D32FEF490C0042D33C /* ForgetMedNotWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ForgetMedNotWatch.entitlements; sourceTree = "<group>"; };
 		5C6EA2D42FEF49320042D33C /* ForgetMedNotWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ForgetMedNotWidget.entitlements; sourceTree = "<group>"; };
 		5C6EA2DA2FEF51380042D33C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CFD22892FF03D020078D8E5 /* MedicineManagerWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineManagerWatch.swift; sourceTree = "<group>"; };
 		65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ForgetMedNotWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C6477455B3594C9098ED8070 /* ForgetMedNot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForgetMedNot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -167,6 +168,7 @@
 		C7297EEA05114E1D966994B6 /* ForgetMedNotWatch */ = {
 			isa = PBXGroup;
 			children = (
+				5CFD22892FF03D020078D8E5 /* MedicineManagerWatch.swift */,
 				5C6EA2D32FEF490C0042D33C /* ForgetMedNotWatch.entitlements */,
 				F67D0C30895C4910A6A8CF1B /* ForgetMedNotWatchApp.swift */,
 				55EFDC80864943BBA9768270 /* WatchContentView.swift */,
@@ -308,7 +310,7 @@
 			files = (
 				6AF82A0D3A33430D96EEB875 /* ForgetMedNotWatchApp.swift in Sources */,
 				F055B7E45DEA45E6A1531787 /* WatchContentView.swift in Sources */,
-				149390F0E10746B5B0967E6E /* MedicineManager.swift in Sources */,
+				5CFD228A2FF03D090078D8E5 /* MedicineManagerWatch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

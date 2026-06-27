@@ -4,7 +4,7 @@ import Foundation
 struct TakeMedicineIntent: AppIntent {
     static var title: LocalizedStringResource = "Record Medicine Taken"
     static var description = IntentDescription("Records that you took your medicine today.")
-
+    
     func perform() async throws -> some IntentResult {
         let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")!
         let now = Date()

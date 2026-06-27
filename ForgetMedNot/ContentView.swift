@@ -74,7 +74,10 @@ struct iOSForgetMedNotView: View {
             .padding(30)
         }
         .onChange(of: scenePhase) { _, newPhase in
-            if newPhase == .active { manager.loadTodayStatus() }
+            if newPhase == .active {
+                manager.loadTodayStatus()
+                print("DEBUG SCENE ACTIVE - tookMedicineToday: \(manager.tookMedicineToday)")
+            }
         }
     }
 }
