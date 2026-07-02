@@ -3,6 +3,7 @@ import SwiftUI
 struct iOSForgetMedNotView: View {
     @StateObject private var manager = MedicineManager()
     @Environment(\.scenePhase) var scenePhase
+    @State private var showingHistory = false
 
     var body: some View {
         ZStack {
@@ -14,6 +15,19 @@ struct iOSForgetMedNotView: View {
             .ignoresSafeArea()
 
             VStack(spacing: 40) {
+                HStack {
+                    Text("ForgetMedNot")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Spacer()
+                    Button(action: { showingHistory = true }) {
+                        Image(systemName: "calendar")
+                            .font(.title2)
+                            .foregroundColor(.blue)
+                    }
+                }
+                .padding(.horizontal)
+
                 VStack(spacing: 12) {
                     Text("Did You Take Your Medicine?")
                         .font(.title2)
@@ -73,10 +87,15 @@ struct iOSForgetMedNotView: View {
             }
             .padding(30)
         }
+        .sheet(isPresented: $showingHistory) {
+            HistoryView(history: manager.history)
+        }
+        .onAppear {
+            manager.loadTodayStatus()
+        }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 manager.loadTodayStatus()
-                print("DEBUG SCENE ACTIVE - tookMedicineToday: \(manager.tookMedicineToday)")
             }
         }
     }

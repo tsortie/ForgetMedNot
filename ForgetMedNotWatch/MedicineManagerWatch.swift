@@ -8,22 +8,29 @@ class MedicineManager: ObservableObject {
     private let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")!
     private let userDefaultsKey = "medicineTrackerDate"
     private let medicineTimeKey = "medicineTrackerTime"
+    private var cancellables = Set<AnyCancellable>()
 
     init() {
         loadTodayStatus()
+        
+        NotificationCenter.default.publisher(for: Notification.Name("NSExtensionHostWillEnterForeground"))
+            .sink { [weak self] _ in
+                self?.loadTodayStatus()
+            }
+            .store(in: &cancellables)
     }
 
     func loadTodayStatus() {
+        suite.synchronize()
         let savedDate = suite.object(forKey: userDefaultsKey) as? Date
         let savedTime = suite.string(forKey: medicineTimeKey)
-        DispatchQueue.main.async {
-            if let savedDate = savedDate, Calendar.current.isDateInToday(savedDate) {
-                self.tookMedicineToday = true
-                self.medicineTime = savedTime
-            } else {
-                self.tookMedicineToday = false
-                self.medicineTime = nil
-            }
+        
+        if let savedDate = savedDate, Calendar.current.isDateInToday(savedDate) {
+            self.tookMedicineToday = true
+            self.medicineTime = savedTime
+        } else {
+            self.tookMedicineToday = false
+            self.medicineTime = nil
         }
     }
 
@@ -32,20 +39,20 @@ class MedicineManager: ObservableObject {
         let timeFormatter = DateFormatter()
         timeFormatter.timeStyle = .short
         let formattedTime = timeFormatter.string(from: now)
-        DispatchQueue.main.async {
-            self.tookMedicineToday = true
-            self.medicineTime = formattedTime
-        }
+        
+        self.tookMedicineToday = true
+        self.medicineTime = formattedTime
+        
         suite.set(now, forKey: userDefaultsKey)
         suite.set(formattedTime, forKey: medicineTimeKey)
+        suite.synchronize()
     }
 
     func clearToday() {
-        DispatchQueue.main.async {
-            self.tookMedicineToday = false
-            self.medicineTime = nil
-        }
+        self.tookMedicineToday = false
+        self.medicineTime = nil
         suite.removeObject(forKey: userDefaultsKey)
         suite.removeObject(forKey: medicineTimeKey)
+        suite.synchronize()
     }
 }

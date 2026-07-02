@@ -4,7 +4,8 @@ import SwiftUI
 struct ForgetMedNotApp: App {
     var body: some Scene {
         WindowGroup {
-            iOSForgetMedNotView()
+            iOSForgetMedNotView(
+            )
         }
     }
 }

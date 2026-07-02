@@ -55,6 +55,9 @@ struct WatchContentView: View {
             }
             .padding(12)
         }
+        .onAppear {
+            manager.loadTodayStatus()
+        }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active { manager.loadTodayStatus() }
         }

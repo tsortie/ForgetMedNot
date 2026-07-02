@@ -1,62 +1,81 @@
 import Foundation
 import UIKit
-import WidgetKit
 import Combine
+import WidgetKit
 
 class MedicineManager: ObservableObject {
     @Published var tookMedicineToday = false
     @Published var medicineTime: String? = nil
-    
+
     private let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")!
     private let userDefaultsKey = "medicineTrackerDate"
     private let medicineTimeKey = "medicineTrackerTime"
     private var cancellables = Set<AnyCancellable>()
-    
+    let history = MedicineHistory()
+
     init() {
         loadTodayStatus()
-        
+        checkForMissedYesterday()
+
         NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
             .sink { [weak self] _ in
                 self?.loadTodayStatus()
+                self?.checkForMissedYesterday()
             }
             .store(in: &cancellables)
     }
-    
+
     func loadTodayStatus() {
+        suite.synchronize()
         let savedDate = suite.object(forKey: userDefaultsKey) as? Date
         let savedTime = suite.string(forKey: medicineTimeKey)
-        
+
         if let savedDate = savedDate, Calendar.current.isDateInToday(savedDate) {
-            self.tookMedicineToday = true
-            self.medicineTime = savedTime
+            tookMedicineToday = true
+            medicineTime = savedTime
         } else {
-            self.tookMedicineToday = false
-            self.medicineTime = nil
+            tookMedicineToday = false
+            medicineTime = nil
         }
     }
-    
+
     func recordMedicineTaken() {
         let now = Date()
         let timeFormatter = DateFormatter()
         timeFormatter.timeStyle = .short
         let formattedTime = timeFormatter.string(from: now)
-        
+
         tookMedicineToday = true
         medicineTime = formattedTime
-        
+
         suite.set(now, forKey: userDefaultsKey)
         suite.set(formattedTime, forKey: medicineTimeKey)
-        
+        suite.synchronize()
+
+        history.recordTaken(at: formattedTime)
+
         WidgetCenter.shared.reloadAllTimelines()
     }
-    
+
     func clearToday() {
         tookMedicineToday = false
         medicineTime = nil
-        
+
         suite.removeObject(forKey: userDefaultsKey)
         suite.removeObject(forKey: medicineTimeKey)
-        
+        suite.synchronize()
+
+        history.clearToday()
+
         WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    private func checkForMissedYesterday() {
+        let calendar = Calendar.current
+        guard let yesterday = calendar.date(byAdding: .day, value: -1, to: Date()) else { return }
+        let yesterdayStatus = history.status(for: yesterday)
+        if yesterdayStatus == .noData {
+            history.recordMissed(for: yesterday)
+        }
     }
 }
