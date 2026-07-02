@@ -54,6 +54,15 @@ class MedicineManager: ObservableObject {
 
         history.recordTaken(at: formattedTime)
 
+        NotificationManager.shared.cancelReminder()
+        
+        let enabled = UserDefaults.standard.bool(forKey: "notificationEnabled")
+        let timeInterval = UserDefaults.standard.double(forKey: "notificationTimeInterval")
+        if enabled && timeInterval > 0 {
+            let time = Date(timeIntervalSince1970: timeInterval)
+            NotificationManager.shared.scheduleDailyReminder(at: time)
+        }
+
         WidgetCenter.shared.reloadAllTimelines()
     }
 

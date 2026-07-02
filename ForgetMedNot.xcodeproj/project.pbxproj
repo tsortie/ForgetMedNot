@@ -11,6 +11,8 @@
 		5C6EA2D92FEF4FF40042D33C /* ForgetMedNotWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5C71AC4E2FF6025800CE46F4 /* MedicineHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC4D2FF6025300CE46F4 /* MedicineHistory.swift */; };
 		5C71AC502FF6057F00CE46F4 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC4F2FF6057900CE46F4 /* HistoryView.swift */; };
+		5C71AC522FF60D2F00CE46F4 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC512FF60D2800CE46F4 /* NotificationManager.swift */; };
+		5C71AC542FF60D4000CE46F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC532FF60D3C00CE46F4 /* SettingsView.swift */; };
 		5CFD228A2FF03D090078D8E5 /* MedicineManagerWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFD22892FF03D020078D8E5 /* MedicineManagerWatch.swift */; };
 		6AF82A0D3A33430D96EEB875 /* ForgetMedNotWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67D0C30895C4910A6A8CF1B /* ForgetMedNotWatchApp.swift */; };
 		6D93C9A669D942BBBEE920C4 /* MedicineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */; };
@@ -90,6 +92,9 @@
 		5C6EA2DA2FEF51380042D33C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5C71AC4D2FF6025300CE46F4 /* MedicineHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineHistory.swift; sourceTree = "<group>"; };
 		5C71AC4F2FF6057900CE46F4 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		5C71AC512FF60D2800CE46F4 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		5C71AC532FF60D3C00CE46F4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5C71AC552FF60D8A00CE46F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5CFD22892FF03D020078D8E5 /* MedicineManagerWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineManagerWatch.swift; sourceTree = "<group>"; };
 		65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ForgetMedNotWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -149,6 +154,9 @@
 		9F56C5BADE044408BC7BAD67 /* ForgetMedNot */ = {
 			isa = PBXGroup;
 			children = (
+				5C71AC552FF60D8A00CE46F4 /* Info.plist */,
+				5C71AC532FF60D3C00CE46F4 /* SettingsView.swift */,
+				5C71AC512FF60D2800CE46F4 /* NotificationManager.swift */,
 				5C71AC4F2FF6057900CE46F4 /* HistoryView.swift */,
 				5C71AC4D2FF6025300CE46F4 /* MedicineHistory.swift */,
 				5C6EA2D22FEF48EB0042D33C /* ForgetMedNot.entitlements */,
@@ -325,9 +333,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E87C53C510A04C67BE89278A /* ForgetMedNotApp.swift in Sources */,
+				5C71AC542FF60D4000CE46F4 /* SettingsView.swift in Sources */,
 				5C71AC502FF6057F00CE46F4 /* HistoryView.swift in Sources */,
 				5C71AC4E2FF6025800CE46F4 /* MedicineHistory.swift in Sources */,
 				760FFFEB94A14E06A8368797 /* ContentView.swift in Sources */,
+				5C71AC522FF60D2F00CE46F4 /* NotificationManager.swift in Sources */,
 				5C6EA2D52FEF498C0042D33C /* MedNotIntent.swift in Sources */,
 				6D93C9A669D942BBBEE920C4 /* MedicineManager.swift in Sources */,
 			);
@@ -375,6 +385,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = NMUNAF53M3;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ForgetMedNot/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
@@ -569,6 +580,7 @@
 					"$(inherited)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ForgetMedNot/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
