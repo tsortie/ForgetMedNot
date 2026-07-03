@@ -50,21 +50,18 @@ struct ForgetMedNotWidgetView: View {
                     .font(.system(size: 32))
                     .foregroundColor(.green)
                 if let time = entry.medicineTime {
-                    Text(time)
+                    Text("Taken at " + time)
                         .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundColor(.green)
                 }
-                Text("Taken")
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
             } else {
                 Button(intent: TakeMedicineIntent()) {
                     VStack(spacing: 4) {
                         Image(systemName: "pill.circle")
                             .font(.system(size: 32))
                             .foregroundColor(.blue)
-                        Text("Took it")
+                        Text("Log it")
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundColor(.blue)
