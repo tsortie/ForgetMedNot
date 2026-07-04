@@ -52,29 +52,32 @@ struct ForgetMedNotWidgetView: View {
                 HStack {
                     if entry.tookMedicine {
                         if let time = entry.medicineTime {
-                            Text("Taken at \(time)")
+                            Text("Taken at\n\(time)")
                                 .font(.caption)
                                 .fontWeight(.bold)
                                 .foregroundColor(.black.opacity(0.85))
                                 .padding(6)
-                                //.background(Color.black.opacity(0.3))
+                            .background(Color.black.opacity(0.15))
                                 .cornerRadius(8)
                         }
                     } else {
-                        Text("Not yet taken")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(.black.opacity(0.85))
-                            .padding(6)
-                            //.background(Color.black.opacity(0.3))
-                            .cornerRadius(8)
+                        Button(intent: TakeMedicineIntent()) {
+                            Text("Log It")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .foregroundColor(.black.opacity(0.85))
+                                .padding(6)
+                            .background(Color.black.opacity(0.15))
+                                .cornerRadius(8)
+                        }
+                        .buttonStyle(.plain)
                     }
-                    Spacer()
                 }
-                .padding(4)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                .ignoresSafeArea()
+                Spacer()
             }
+            .padding(4)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .ignoresSafeArea()
         }
         .containerBackground(for: .widget) {
             Image(entry.tookMedicine ? "scene_taken" : "scene_not_taken")
