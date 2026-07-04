@@ -55,9 +55,8 @@ struct ForgetMedNotWidgetView: View {
                             Text("Taken at\n\(time)")
                                 .font(.caption)
                                 .fontWeight(.bold)
-                                .foregroundColor(.black.opacity(0.85))
+                                .foregroundColor(.black)
                                 .padding(6)
-                            .background(Color.black.opacity(0.15))
                                 .cornerRadius(8)
                         }
                     } else {
@@ -65,9 +64,9 @@ struct ForgetMedNotWidgetView: View {
                             Text("Log It")
                                 .font(.caption)
                                 .fontWeight(.bold)
-                                .foregroundColor(.black.opacity(0.85))
+                                .foregroundColor(.white)
                                 .padding(6)
-                            .background(Color.black.opacity(0.15))
+                            .background(Color.black.opacity(0.40))
                                 .cornerRadius(8)
                         }
                         .buttonStyle(.plain)
