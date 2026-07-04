@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C5324102FF97C5100EA2974 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C53240F2FF97C5100EA2974 /* Assets.xcassets */; };
 		5C6EA2D52FEF498C0042D33C /* MedNotIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B324C470AAC47C18033741F /* MedNotIntent.swift */; };
 		5C6EA2D92FEF4FF40042D33C /* ForgetMedNotWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5C71AC4E2FF6025800CE46F4 /* MedicineHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC4D2FF6025300CE46F4 /* MedicineHistory.swift */; };
@@ -86,6 +87,7 @@
 		4FBD1E5900714D8895B8C5C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55EFDC80864943BBA9768270 /* WatchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContentView.swift; sourceTree = "<group>"; };
 		56AB11F37E4C4CE7B59E131B /* ForgetMedNotWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetMedNotWidgetBundle.swift; sourceTree = "<group>"; };
+		5C53240F2FF97C5100EA2974 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C6EA2D22FEF48EB0042D33C /* ForgetMedNot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ForgetMedNot.entitlements; sourceTree = "<group>"; };
 		5C6EA2D32FEF490C0042D33C /* ForgetMedNotWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ForgetMedNotWatch.entitlements; sourceTree = "<group>"; };
 		5C6EA2D42FEF49320042D33C /* ForgetMedNotWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ForgetMedNotWidget.entitlements; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				F7ECFD31C291408ABA6333C4 /* ForgetMedNotWidget.swift */,
 				56AB11F37E4C4CE7B59E131B /* ForgetMedNotWidgetBundle.swift */,
 				5C6EA2DA2FEF51380042D33C /* Info.plist */,
+				5C53240F2FF97C5100EA2974 /* Assets.xcassets */,
 			);
 			path = ForgetMedNotWidget;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C5324102FF97C5100EA2974 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

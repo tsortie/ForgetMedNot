@@ -42,35 +42,45 @@ struct MedicineProvider: TimelineProvider {
 
 struct ForgetMedNotWidgetView: View {
     var entry: MedicineEntry
+    @Environment(\.widgetFamily) var widgetFamily
 
     var body: some View {
-        VStack(spacing: 6) {
-            if entry.tookMedicine {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 32))
-                    .foregroundColor(.green)
-                if let time = entry.medicineTime {
-                    Text("Taken at " + time)
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.green)
-                }
-            } else {
-                Button(intent: TakeMedicineIntent()) {
-                    VStack(spacing: 4) {
-                        Image(systemName: "pill.circle")
-                            .font(.system(size: 32))
-                            .foregroundColor(.blue)
-                        Text("Log it")
+        ZStack {
+            
+            // Text overlay
+            VStack {
+                HStack {
+                    if entry.tookMedicine {
+                        if let time = entry.medicineTime {
+                            Text("Taken at \(time)")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .foregroundColor(.black.opacity(0.85))
+                                .padding(6)
+                                //.background(Color.black.opacity(0.3))
+                                .cornerRadius(8)
+                        }
+                    } else {
+                        Text("Not yet taken")
                             .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.blue)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black.opacity(0.85))
+                            .padding(6)
+                            //.background(Color.black.opacity(0.3))
+                            .cornerRadius(8)
                     }
+                    Spacer()
                 }
-                .buttonStyle(.plain)
+                .padding(4)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .ignoresSafeArea()
             }
         }
-        .containerBackground(.background, for: .widget)
+        .containerBackground(for: .widget) {
+            Image(entry.tookMedicine ? "scene_taken" : "scene_not_taken")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        }
     }
 }
 
