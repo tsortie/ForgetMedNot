@@ -48,9 +48,9 @@ struct iOSForgetMedNotView: View {
                     }
                 }
 
-                Text(manager.tookMedicineToday ? "Medicine taken" : "Not logged yet")
+                Text(manager.tookMedicineToday ? "" : "Not logged yet")
                     .font(.body)
-                    .foregroundColor(manager.tookMedicineToday ? .green : .orange)
+                    .foregroundColor(manager.tookMedicineToday ? .green : .black)
                     .fontWeight(.medium)
 
                 Spacer()
@@ -59,20 +59,20 @@ struct iOSForgetMedNotView: View {
                     Button(action: { manager.recordMedicineTaken() }) {
                         Text("Log it")
                             .font(.headline)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
+                            .frame(maxWidth: 160)
+                            .padding(.vertical, 10)
+                            .background(Color.blue.opacity(0.7))
+                            .foregroundColor(.black)
                             .cornerRadius(12)
                     }
                 } else {
                     Button(action: { showingClearConfirmation = true }) {
                         Text("Clear Today's Log")
                             .font(.headline)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(Color.red.opacity(0.6))
-                            .foregroundColor(.white)
+                            .frame(maxWidth: 160)
+                            .padding(.vertical, 10)
+                            .background(Color.red.opacity(0.5))
+                            .foregroundColor(.black)
                             .cornerRadius(12)
                     }
                     .confirmationDialog(
