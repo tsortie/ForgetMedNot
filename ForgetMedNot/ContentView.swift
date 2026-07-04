@@ -9,19 +9,16 @@ struct iOSForgetMedNotView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.purple.opacity(0.1)]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            Image(manager.tookMedicineToday ? "app_taken" : "app_not_taken")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .clipped()
+                .ignoresSafeArea()
 
             VStack(spacing: 40) {
                 HStack {
-                    Text("ForgetMedNot")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    Spacer()
+                Spacer()
                     Button(action: { showingHistory = true }) {
                         Image(systemName: "calendar")
                             .font(.title2)
@@ -32,33 +29,21 @@ struct iOSForgetMedNotView: View {
                             .font(.title2)
                             .foregroundColor(.blue)
                     }
+                    Spacer()
                 }
                 .padding(.horizontal)
-
-                VStack(spacing: 12) {
-                    Text("Did You Take Your Medicine?")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                    Text("Today")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
+                .padding(.top, 8)
 
                 ZStack {
-                    Circle()
-                        .fill(manager.tookMedicineToday ? Color.green : Color.gray.opacity(0.3))
-                        .frame(width: 140, height: 140)
-                        .shadow(color: manager.tookMedicineToday ? Color.green.opacity(0.5) : Color.clear, radius: 10)
                     VStack(spacing: 8) {
                         Image(systemName: manager.tookMedicineToday ? "checkmark.circle.fill" : "circle")
                             .font(.system(size: 50))
-                            .foregroundColor(.white)
+                            .foregroundColor(.green)
                         if let time = manager.medicineTime {
-                            Text(time)
+                            Text("Taken at \n\(time)")
                                 .font(.caption)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .fontWeight(.bold)
+                                .foregroundColor(.black.opacity(0.75))
                         }
                     }
                 }
