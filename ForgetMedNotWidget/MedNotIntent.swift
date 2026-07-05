@@ -1,12 +1,14 @@
 import AppIntents
 import Foundation
 import WidgetKit
+import os.log
 
 struct TakeMedicineIntent: AppIntent {
     static var title: LocalizedStringResource = "Record Medicine Taken"
     static var description = IntentDescription("Records that you took your medicine today.")
     
     func perform() async throws -> some IntentResult {
+        os_log("TakeMedicineIntent fired")
         let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")!
         let now = Date()
         let formatter = DateFormatter()

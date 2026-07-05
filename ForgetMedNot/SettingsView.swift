@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @ObservedObject var manager: MedicineManager
+    
     @AppStorage("notificationEnabled") private var notificationEnabled = false
     @AppStorage("notificationTimeInterval") private var notificationTimeInterval: Double = Date().timeIntervalSince1970
     
@@ -30,7 +32,7 @@ struct SettingsView: View {
                         .onChange(of: notificationEnabled) { _, enabled in
                             if enabled {
                                 NotificationManager.shared.requestPermission()
-                                NotificationManager.shared.scheduleDailyReminder(at: notificationTime)
+                                scheduleIfNeeded()
                             } else {
                                 NotificationManager.shared.cancelReminder()
                             }
@@ -44,14 +46,18 @@ struct SettingsView: View {
                         )
                         .onChange(of: notificationTime) { _, newTime in
                             notificationTimeInterval = newTime.timeIntervalSince1970
-                            NotificationManager.shared.scheduleDailyReminder(at: newTime)
+                            scheduleIfNeeded()
                         }
                     }
                 } header: {
                     Text("Notifications")
                 } footer: {
                     if notificationEnabled {
-                        Text("You'll receive a reminder at \(formattedTime) if you haven't recorded taking your medicine.")
+                        if manager.tookMedicineToday {
+                            Text("You've already logged your medicine today, so no reminder will fire until tomorrow.")
+                        } else {
+                            Text("You'll receive a reminder at \(formattedTime) if you haven't recorded taking your medicine.")
+                        }
                     } else {
                         Text("Enable to receive a daily reminder if you haven't recorded taking your medicine.")
                     }
@@ -59,6 +65,14 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.large)
+        }
+    }
+    
+    private func scheduleIfNeeded() {
+        if manager.tookMedicineToday {
+            NotificationManager.shared.cancelReminder()
+        } else {
+            NotificationManager.shared.scheduleDailyReminder(at: notificationTime)
         }
     }
     

@@ -1,6 +1,5 @@
 import WidgetKit
 import SwiftUI
-import AppIntents
 
 struct MedicineEntry: TimelineEntry {
     let date: Date

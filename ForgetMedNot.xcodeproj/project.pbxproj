@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5C5324102FF97C5100EA2974 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C53240F2FF97C5100EA2974 /* Assets.xcassets */; };
 		5C5324122FF9823800EA2974 /* MedNotIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5324112FF9823800EA2974 /* MedNotIntent.swift */; };
-		5C6EA2D52FEF498C0042D33C /* MedNotIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B324C470AAC47C18033741F /* MedNotIntent.swift */; };
 		5C6EA2D92FEF4FF40042D33C /* ForgetMedNotWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5C71AC4E2FF6025800CE46F4 /* MedicineHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC4D2FF6025300CE46F4 /* MedicineHistory.swift */; };
 		5C71AC502FF6057F00CE46F4 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC4F2FF6057900CE46F4 /* HistoryView.swift */; };
@@ -344,7 +343,6 @@
 				5C71AC4E2FF6025800CE46F4 /* MedicineHistory.swift in Sources */,
 				760FFFEB94A14E06A8368797 /* ContentView.swift in Sources */,
 				5C71AC522FF60D2F00CE46F4 /* NotificationManager.swift in Sources */,
-				5C6EA2D52FEF498C0042D33C /* MedNotIntent.swift in Sources */,
 				6D93C9A669D942BBBEE920C4 /* MedicineManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

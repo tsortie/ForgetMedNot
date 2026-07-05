@@ -89,11 +89,14 @@ struct iOSForgetMedNotView: View {
             }
             .padding(30)
         }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView(manager: manager)
+        }
         .sheet(isPresented: $showingHistory) {
             HistoryView(history: manager.history)
         }
         .sheet(isPresented: $showingSettings) {
-            SettingsView()
+            SettingsView(manager: manager)
         }
         .onAppear {
             manager.loadTodayStatus()
@@ -102,6 +105,7 @@ struct iOSForgetMedNotView: View {
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 manager.loadTodayStatus()
+                
             }
         }
     }

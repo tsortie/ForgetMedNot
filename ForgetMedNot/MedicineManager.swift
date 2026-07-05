@@ -37,6 +37,25 @@ class MedicineManager: ObservableObject {
             tookMedicineToday = false
             medicineTime = nil
         }
+        
+        syncReminderState()
+    }
+    
+    private func syncReminderState() {
+        let enabled = UserDefaults.standard.bool(forKey: "notificationEnabled")
+        let timeInterval = UserDefaults.standard.double(forKey: "notificationTimeInterval")
+        
+        guard enabled, timeInterval > 0 else {
+            NotificationManager.shared.cancelReminder()
+            return
+        }
+        
+        if tookMedicineToday {
+            NotificationManager.shared.cancelReminder()
+        } else {
+            let time = Date(timeIntervalSince1970: timeInterval)
+            NotificationManager.shared.scheduleDailyReminder(at: time)
+        }
     }
     
     func recordMedicineTaken() {
@@ -56,13 +75,6 @@ class MedicineManager: ObservableObject {
         
         NotificationManager.shared.cancelReminder()
         
-        let enabled = UserDefaults.standard.bool(forKey: "notificationEnabled")
-        let timeInterval = UserDefaults.standard.double(forKey: "notificationTimeInterval")
-        if enabled && timeInterval > 0 {
-            let time = Date(timeIntervalSince1970: timeInterval)
-            NotificationManager.shared.scheduleDailyReminder(at: time)
-        }
-        
         WidgetCenter.shared.reloadAllTimelines()
     }
     
@@ -75,6 +87,8 @@ class MedicineManager: ObservableObject {
         suite.synchronize()
         
         history.clearToday()
+        
+        syncReminderState() // re-arms reminder since today is unlogged again
         
         WidgetCenter.shared.reloadAllTimelines()
     }
