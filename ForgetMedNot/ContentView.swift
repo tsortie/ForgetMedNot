@@ -18,7 +18,7 @@ struct iOSForgetMedNotView: View {
 
             VStack(spacing: 40) {
                 HStack {
-                Spacer()
+                    Spacer()
                     Button(action: { showingHistory = true }) {
                         Image(systemName: "calendar")
                             .font(.title2)
@@ -34,24 +34,24 @@ struct iOSForgetMedNotView: View {
                 .padding(.horizontal)
                 .padding(.top, 8)
 
-                ZStack {
-                    VStack(spacing: 8) {
-                        Image(systemName: manager.tookMedicineToday ? "checkmark.circle.fill" : "circle")
-                            .font(.system(size: 50))
-                            .foregroundColor(.green)
-                        if let time = manager.medicineTime {
-                            Text("Taken at \n\(time)")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(.black.opacity(0.75))
-                        }
+                VStack(spacing: 8) {
+                    Image(systemName: manager.tookMedicineToday ? "checkmark.circle.fill" : "circle")
+                        .font(.system(size: 50))
+                        .foregroundColor(.green)
+                    if let time = manager.medicineTime {
+                        Text("Taken at \n\(time)")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black.opacity(0.75))
                     }
                 }
 
-                Text(manager.tookMedicineToday ? "" : "Not logged yet")
-                    .font(.body)
-                    .foregroundColor(manager.tookMedicineToday ? .green : .black)
-                    .fontWeight(.medium)
+                if !manager.tookMedicineToday {
+                    Text("Not logged yet")
+                        .font(.body)
+                        .foregroundColor(.black)
+                        .fontWeight(.medium)
+                }
 
                 Spacer()
 
@@ -89,9 +89,6 @@ struct iOSForgetMedNotView: View {
             }
             .padding(30)
         }
-        .sheet(isPresented: $showingSettings) {
-            SettingsView(manager: manager)
-        }
         .sheet(isPresented: $showingHistory) {
             HistoryView(history: manager.history)
         }
@@ -105,7 +102,6 @@ struct iOSForgetMedNotView: View {
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 manager.loadTodayStatus()
-                
             }
         }
     }

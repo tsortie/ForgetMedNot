@@ -8,7 +8,9 @@ struct MedicineEntry: TimelineEntry {
 }
 
 struct MedicineProvider: TimelineProvider {
-    let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")!
+    private var suite: UserDefaults {
+        UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot") ?? .standard
+    }
 
     func placeholder(in context: Context) -> MedicineEntry {
         MedicineEntry(date: Date(), tookMedicine: false, medicineTime: nil)
@@ -22,7 +24,14 @@ struct MedicineProvider: TimelineProvider {
         // Refresh at midnight to auto-reset
         var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
         components.day! += 1
-        let midnight = Calendar.current.date(from: components)!
+        
+        guard let midnight = Calendar.current.date(from: components) else {
+            // Fallback: refresh in an hour if midnight calc somehow fails
+            let timeline = Timeline(entries: [currentEntry()], policy: .after(Date().addingTimeInterval(3600)))
+            completion(timeline)
+            return
+        }
+        
         let timeline = Timeline(entries: [currentEntry()], policy: .after(midnight))
         completion(timeline)
     }
@@ -44,39 +53,35 @@ struct ForgetMedNotWidgetView: View {
     @Environment(\.widgetFamily) var widgetFamily
 
     var body: some View {
-        ZStack {
-            
-            // Text overlay
-            VStack {
-                HStack {
-                    if entry.tookMedicine {
-                        if let time = entry.medicineTime {
-                            Text("Taken at\n\(time)")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(.black)
-                                .padding(6)
-                                .cornerRadius(8)
-                        }
-                    } else {
-                        Button(intent: TakeMedicineIntent()) {
-                            Text("Log It")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding(6)
-                            .background(Color.black.opacity(0.40))
-                                .cornerRadius(8)
-                        }
-                        .buttonStyle(.plain)
+        VStack {
+            HStack {
+                if entry.tookMedicine {
+                    if let time = entry.medicineTime {
+                        Text("Taken at\n\(time)")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                            .padding(6)
+                            .cornerRadius(8)
                     }
+                } else {
+                    Button(intent: TakeMedicineIntent()) {
+                        Text("Log It")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(6)
+                            .background(Color.black.opacity(0.40))
+                            .cornerRadius(8)
+                    }
+                    .buttonStyle(.plain)
                 }
                 Spacer()
             }
-            .padding(4)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .ignoresSafeArea()
+            Spacer()
         }
+        .padding(4)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .containerBackground(for: .widget) {
             Image(entry.tookMedicine ? "scene_taken" : "scene_not_taken")
                 .resizable()

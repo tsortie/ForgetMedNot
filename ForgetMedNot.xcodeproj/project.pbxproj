@@ -82,7 +82,6 @@
 /* Begin PBXFileReference section */
 		04B2580918E54B4FBAB29D45 /* ForgetMedNotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetMedNotApp.swift; sourceTree = "<group>"; };
 		1D26ECD2BBF94A22B926F113 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2B324C470AAC47C18033741F /* MedNotIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedNotIntent.swift; sourceTree = "<group>"; };
 		4FBD1E5900714D8895B8C5C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55EFDC80864943BBA9768270 /* WatchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContentView.swift; sourceTree = "<group>"; };
 		56AB11F37E4C4CE7B59E131B /* ForgetMedNotWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetMedNotWidgetBundle.swift; sourceTree = "<group>"; };
@@ -167,7 +166,6 @@
 				04B2580918E54B4FBAB29D45 /* ForgetMedNotApp.swift */,
 				C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */,
 				CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */,
-				2B324C470AAC47C18033741F /* MedNotIntent.swift */,
 				4FBD1E5900714D8895B8C5C8 /* Assets.xcassets */,
 			);
 			path = ForgetMedNot;

@@ -3,7 +3,13 @@ import SwiftUI
 struct HistoryView: View {
     @ObservedObject var history: MedicineHistory
     
-    private var currentMonthDays: [(date: Date, status: DayStatus)] {
+    private static let monthTitleFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        return formatter
+    }()
+    
+    private func buildCurrentMonthDays() -> [(date: Date, status: DayStatus)] {
         let calendar = Calendar.current
         let now = Date()
         let components = calendar.dateComponents([.year, .month], from: now)
@@ -12,10 +18,12 @@ struct HistoryView: View {
             return []
         }
         
+        let allHistory = history.loadHistory() // load once, not once per day
+        
         var result: [(date: Date, status: DayStatus)] = []
         for i in 0..<daysInMonth {
             guard let date = calendar.date(byAdding: .day, value: i, to: firstOfMonth) else { continue }
-            let status = history.status(for: date)
+            let status = allHistory[history.dateKey(for: date)] ?? .noData
             let isFuture = calendar.compare(date, to: now, toGranularity: .day) == .orderedDescending
             let resolvedStatus: DayStatus
             if isFuture {
@@ -31,15 +39,13 @@ struct HistoryView: View {
     }
     
     private var monthTitle: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy"
-        return formatter.string(from: Date())
+        Self.monthTitleFormatter.string(from: Date())
     }
     
-    private var stats: (taken: Int, missed: Int) {
+    private func stats(for days: [(date: Date, status: DayStatus)]) -> (taken: Int, missed: Int) {
         let now = Date()
         let calendar = Calendar.current
-        let pastDays = currentMonthDays.filter {
+        let pastDays = days.filter {
             calendar.compare($0.date, to: now, toGranularity: .day) != .orderedDescending
         }
         let taken = pastDays.filter { $0.status == .taken }.count
@@ -47,21 +53,24 @@ struct HistoryView: View {
         return (taken: taken, missed: missed)
     }
     
-    private func paddedForSundayStart() -> [(date: Date, status: DayStatus)?] {
-        guard let firstDate = currentMonthDays.first?.date else { return [] }
+    private func paddedForSundayStart(_ days: [(date: Date, status: DayStatus)]) -> [(date: Date, status: DayStatus)?] {
+        guard let firstDate = days.first?.date else { return [] }
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: firstDate)
         let offset = weekday - 1
         var result: [(date: Date, status: DayStatus)?] = Array(repeating: nil, count: offset)
-        result += currentMonthDays.map { Optional($0) }
+        result += days.map { Optional($0) }
         return result
     }
     
     var body: some View {
+        let currentMonthDays = buildCurrentMonthDays()
+        let s = stats(for: currentMonthDays)
+        let paddedDays = paddedForSundayStart(currentMonthDays)
+        
         NavigationView {
             VStack(spacing: 24) {
                 // Stats
-                let s = stats
                 HStack(spacing: 16) {
                     StatCard(value: s.taken, label: "Taken", color: .green)
                     StatCard(value: s.missed, label: "Missed", color: .red)
@@ -80,7 +89,6 @@ struct HistoryView: View {
                 .padding(.horizontal)
                 
                 // Calendar grid
-                let paddedDays = paddedForSundayStart()
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 10) {
                     ForEach(0..<paddedDays.count, id: \.self) { i in
                         if let day = paddedDays[i] {
@@ -126,11 +134,15 @@ struct StatCard: View {
 struct DayDot: View {
     let date: Date
     let status: DayStatus
-
-    private var dayLabel: String {
+    
+    private static let dayLabelFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d"
-        return formatter.string(from: date)
+        return formatter
+    }()
+
+    private var dayLabel: String {
+        Self.dayLabelFormatter.string(from: date)
     }
 
     private var isFuture: Bool {

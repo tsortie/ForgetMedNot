@@ -7,13 +7,26 @@ class MedicineManager: ObservableObject {
     @Published var tookMedicineToday = false
     @Published var medicineTime: String? = nil
     
-    private let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")!
+    private let suite: UserDefaults
     private let userDefaultsKey = "medicineTrackerDate"
     private let medicineTimeKey = "medicineTrackerTime"
     private var cancellables = Set<AnyCancellable>()
     let history = MedicineHistory()
     
+    private static let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
     init() {
+        if let appGroupSuite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot") {
+            suite = appGroupSuite
+        } else {
+            assertionFailure("Failed to open App Group suite 'group.com.toddfeliciano.ForgetMedNot' — check entitlements/App Group configuration. Falling back to standard UserDefaults; widget will not see this data.")
+            suite = .standard
+        }
+        
         loadTodayStatus()
         checkForMissedYesterday()
         
@@ -26,7 +39,6 @@ class MedicineManager: ObservableObject {
     }
     
     func loadTodayStatus() {
-        suite.synchronize()
         let savedDate = suite.object(forKey: userDefaultsKey) as? Date
         let savedTime = suite.string(forKey: medicineTimeKey)
         
@@ -60,20 +72,17 @@ class MedicineManager: ObservableObject {
     
     func recordMedicineTaken() {
         let now = Date()
-        let timeFormatter = DateFormatter()
-        timeFormatter.timeStyle = .short
-        let formattedTime = timeFormatter.string(from: now)
+        let formattedTime = Self.timeFormatter.string(from: now)
         
         tookMedicineToday = true
         medicineTime = formattedTime
         
         suite.set(now, forKey: userDefaultsKey)
         suite.set(formattedTime, forKey: medicineTimeKey)
-        suite.synchronize()
         
         history.recordTaken(at: formattedTime)
         
-        NotificationManager.shared.cancelReminder()
+        syncReminderState()
         
         WidgetCenter.shared.reloadAllTimelines()
     }
@@ -84,7 +93,6 @@ class MedicineManager: ObservableObject {
         
         suite.removeObject(forKey: userDefaultsKey)
         suite.removeObject(forKey: medicineTimeKey)
-        suite.synchronize()
         
         history.clearToday()
         
@@ -99,18 +107,15 @@ class MedicineManager: ObservableObject {
         let yesterdayStatus = history.status(for: yesterday)
         
         // Only mark missed if no record exists — never overwrite a taken record
-        if yesterdayStatus == .noData {
-            // Check if the legacy UserDefaults date was yesterday
-            let savedDate = suite.object(forKey: userDefaultsKey) as? Date
-            if let savedDate = savedDate, calendar.isDate(savedDate, inSameDayAs: yesterday) {
-                // Yesterday was actually recorded — write it to history
-                let timeFormatter = DateFormatter()
-                timeFormatter.timeStyle = .short
-                let formattedTime = timeFormatter.string(from: savedDate)
-                history.recordTaken(at: formattedTime)
-            } else {
-                history.recordMissed(for: yesterday)
-            }
+        guard yesterdayStatus == .noData else { return }
+        
+        let savedDate = suite.object(forKey: userDefaultsKey) as? Date
+        if let savedDate = savedDate, calendar.isDate(savedDate, inSameDayAs: yesterday) {
+            // Yesterday was actually recorded — write it to history
+            let formattedTime = Self.timeFormatter.string(from: savedDate)
+            history.recordTaken(at: formattedTime)
+        } else {
+            history.recordMissed(for: yesterday)
         }
     }
 }

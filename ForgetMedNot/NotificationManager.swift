@@ -48,9 +48,4 @@ class NotificationManager {
     func cancelReminder() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationID])
     }
-    
-    func rescheduleAfterTaken(at time: Date) {
-        cancelReminder()
-        scheduleDailyReminder(at: time)
-    }
 }

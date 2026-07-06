@@ -1,5 +1,5 @@
 //
-//  Untitled.swift
+//  MedicineHistory.swift
 //  ForgetMedNot
 //
 //  Created by Grace Haataja on 7/1/26.
@@ -16,8 +16,23 @@ enum DayStatus: String, Codable {
 
 // MARK: - Medicine History Manager
 class MedicineHistory: ObservableObject {
-    private let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")!
+    private let suite: UserDefaults
     private let historyKey = "medicineTrackerHistory"
+
+    private static let dateKeyFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd-yyyy"
+        return formatter
+    }()
+
+    init() {
+        if let appGroupSuite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot") {
+            suite = appGroupSuite
+        } else {
+            assertionFailure("Failed to open App Group suite 'group.com.toddfeliciano.ForgetMedNot' — check entitlements/App Group configuration. Falling back to standard UserDefaults; widget will not see this data.")
+            suite = .standard
+        }
+    }
 
     func loadHistory() -> [String: DayStatus] {
         guard let raw = suite.dictionary(forKey: historyKey) as? [String: String] else {
@@ -34,7 +49,6 @@ class MedicineHistory: ObservableObject {
         var history = loadRaw()
         history[dateKey(for: Date())] = DayStatus.taken.rawValue
         suite.set(history, forKey: historyKey)
-        suite.synchronize()
         objectWillChange.send()
     }
 
@@ -44,7 +58,6 @@ class MedicineHistory: ObservableObject {
         if history[key] == nil {
             history[key] = DayStatus.missed.rawValue
             suite.set(history, forKey: historyKey)
-            suite.synchronize()
         }
     }
 
@@ -52,7 +65,6 @@ class MedicineHistory: ObservableObject {
         var history = loadRaw()
         history.removeValue(forKey: dateKey(for: Date()))
         suite.set(history, forKey: historyKey)
-        suite.synchronize()
         objectWillChange.send()
     }
 
@@ -109,8 +121,6 @@ class MedicineHistory: ObservableObject {
     }
 
     func dateKey(for date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd-yyyy"
-        return formatter.string(from: date)
+        return Self.dateKeyFormatter.string(from: date)
     }
 }

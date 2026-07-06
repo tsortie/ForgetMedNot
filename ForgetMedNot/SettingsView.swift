@@ -24,6 +24,12 @@ struct SettingsView: View {
         return Calendar.current.date(from: components) ?? Date()
     }()
     
+    private static let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
     var body: some View {
         NavigationView {
             Form {
@@ -77,8 +83,6 @@ struct SettingsView: View {
     }
     
     private var formattedTime: String {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter.string(from: notificationTime)
+        Self.timeFormatter.string(from: notificationTime)
     }
 }
