@@ -77,8 +77,8 @@ struct SteamRibbon: View {
                 waveFrequency: waveFrequency
             )
             .stroke(
-                Color(red: 1.0, green: 0.98, blue: 0.93).opacity(0.35),
-                style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round)
+                Color(red: 1.0, green: 0.98, blue: 0.93).opacity(0.28),
+                style: StrokeStyle(lineWidth: lineWidth*1.6, lineCap: .round, lineJoin: .round)
             )
             .blur(radius: 2.5)
             
@@ -90,13 +90,25 @@ struct SteamRibbon: View {
                 waveFrequency: waveFrequency * 0.85
             )
             .stroke(
-                Color(red: 1.0, green: 0.97, blue: 0.95).opacity(0.18),
-                style: StrokeStyle(lineWidth: lineWidth * 2.2, lineCap: .round, lineJoin: .round)
+                Color(red: 1.0, green: 0.97, blue: 0.95).opacity(0.12),
+                style: StrokeStyle(lineWidth: lineWidth * 2.1, lineCap: .round, lineJoin: .round)
             )
             .blur(radius: 7.0)
+            
+            SteamPath(
+                timelineProgress: progress,
+                amplitude: amplitude + 2,
+                height: ribbonHeight,
+                waveFrequency: waveFrequency * 0.75
+            )
+            .stroke(
+                Color(red: 1.0, green: 0.97, blue: 0.95).opacity(0.18),
+                style: StrokeStyle(lineWidth: lineWidth * 2.1, lineCap: .round, lineJoin: .round)
+            )
+            .blur(radius: 3.0)
         }
         .offset(x: baseXOffset)
-        .frame(width: amplitude * 5 + lineWidth * 2, height: ribbonHeight)
+        .frame(width: amplitude * 10 + lineWidth * 2, height: ribbonHeight)
     }
 }
 
@@ -116,6 +128,9 @@ struct SteamAnimationView: View {
                 
                 // Rightward staggered ribbon
                 SteamRibbon(delay: 1.6, baseXOffset: 6, cycleDuration: 2.9, amplitude: 4, waveFrequency: .pi * 2.8, time: 0.5*time)
+                
+                // Middle staggered ribbon
+                SteamRibbon(delay: 0.8, baseXOffset: 0, cycleDuration: 3.1, amplitude: 4.5, waveFrequency: .pi * 2.8, time: 0.5*time)
             }
             .frame(height: containerHeight)
             // PERSISTENCE IMPROVEMENT: A static mask fades the edges out, allowing the rising lines inside to flow infinitely
