@@ -7,6 +7,9 @@ struct iOSForgetMedNotView: View {
     @State private var showingSettings = false
     @State private var showingClearConfirmation = false
 
+    private let backgroundSourceSize = CGSize(width: 1024, height: 1024)
+    private let mugSourcePoint = CGPoint(x: 585, y: 535)
+    
     var body: some View {
         ZStack {
             Image(manager.tookMedicineToday ? "app_taken" : "app_not_taken")
@@ -15,6 +18,17 @@ struct iOSForgetMedNotView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .clipped()
                 .ignoresSafeArea()
+            
+            // REMOVED CONDITION: This now persists the steam for BOTH screens smoothly
+            GeometryReader { geo in
+                let mugPos = fillPosition(
+                    sourceSize: backgroundSourceSize,
+                    containerSize: geo.size,
+                    sourcePoint: mugSourcePoint
+                )
+                SteamAnimationView(mugCenterX: mugPos.x, mugCenterY: mugPos.y)
+            }
+            .ignoresSafeArea()
 
             VStack(spacing: 40) {
                 HStack {
@@ -105,4 +119,16 @@ struct iOSForgetMedNotView: View {
             }
         }
     }
+}
+
+func fillPosition(sourceSize: CGSize, containerSize: CGSize, sourcePoint: CGPoint) -> CGPoint {
+    let scale = max(containerSize.width / sourceSize.width, containerSize.height / sourceSize.height)
+    let scaledWidth = sourceSize.width * scale
+    let scaledHeight = sourceSize.height * scale
+    let offsetX = (scaledWidth - containerSize.width) / 2
+    let offsetY = (scaledHeight - containerSize.height) / 2
+    return CGPoint(
+        x: sourcePoint.x * scale - offsetX,
+        y: sourcePoint.y * scale - offsetY
+    )
 }

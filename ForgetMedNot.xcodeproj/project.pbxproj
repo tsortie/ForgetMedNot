@@ -14,6 +14,7 @@
 		5C71AC502FF6057F00CE46F4 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC4F2FF6057900CE46F4 /* HistoryView.swift */; };
 		5C71AC522FF60D2F00CE46F4 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC512FF60D2800CE46F4 /* NotificationManager.swift */; };
 		5C71AC542FF60D4000CE46F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC532FF60D3C00CE46F4 /* SettingsView.swift */; };
+		5CCB952A2FFDC65200375A6E /* SteamAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCB95292FFDC64B00375A6E /* SteamAnimationView.swift */; };
 		5CFD228A2FF03D090078D8E5 /* MedicineManagerWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFD22892FF03D020078D8E5 /* MedicineManagerWatch.swift */; };
 		6AF82A0D3A33430D96EEB875 /* ForgetMedNotWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67D0C30895C4910A6A8CF1B /* ForgetMedNotWatchApp.swift */; };
 		6D93C9A669D942BBBEE920C4 /* MedicineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */; };
@@ -96,6 +97,7 @@
 		5C71AC512FF60D2800CE46F4 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		5C71AC532FF60D3C00CE46F4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5C71AC552FF60D8A00CE46F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5CCB95292FFDC64B00375A6E /* SteamAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteamAnimationView.swift; sourceTree = "<group>"; };
 		5CFD22892FF03D020078D8E5 /* MedicineManagerWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineManagerWatch.swift; sourceTree = "<group>"; };
 		65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ForgetMedNotWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		9F56C5BADE044408BC7BAD67 /* ForgetMedNot */ = {
 			isa = PBXGroup;
 			children = (
+				5CCB95292FFDC64B00375A6E /* SteamAnimationView.swift */,
 				5C71AC552FF60D8A00CE46F4 /* Info.plist */,
 				5C71AC532FF60D3C00CE46F4 /* SettingsView.swift */,
 				5C71AC512FF60D2800CE46F4 /* NotificationManager.swift */,
@@ -335,6 +338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CCB952A2FFDC65200375A6E /* SteamAnimationView.swift in Sources */,
 				E87C53C510A04C67BE89278A /* ForgetMedNotApp.swift in Sources */,
 				5C71AC542FF60D4000CE46F4 /* SettingsView.swift in Sources */,
 				5C71AC502FF6057F00CE46F4 /* HistoryView.swift in Sources */,
