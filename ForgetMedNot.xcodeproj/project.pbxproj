@@ -19,7 +19,6 @@
 		6AF82A0D3A33430D96EEB875 /* ForgetMedNotWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67D0C30895C4910A6A8CF1B /* ForgetMedNotWatchApp.swift */; };
 		6D93C9A669D942BBBEE920C4 /* MedicineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82E5B2316C40FBA34FFFA2 /* MedicineManager.swift */; };
 		760FFFEB94A14E06A8368797 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F1DCCCFDFC4876A9D26B4E /* ContentView.swift */; };
-		89B0259CE225446D97BBB2DE /* ForgetMedNotWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C7D8605B2C2A4377B6B66205 /* ForgetMedNotWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		934CEEF0CDEE49D7A65C516E /* ForgetMedNotWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7ECFD31C291408ABA6333C4 /* ForgetMedNotWidget.swift */; };
 		A1CA24E1267046AE84017CFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FBD1E5900714D8895B8C5C8 /* Assets.xcassets */; };
 		C1269AAA65FE444CBA049AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D26ECD2BBF94A22B926F113 /* Assets.xcassets */; };
@@ -35,13 +34,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0EF126C2D36542C493636FD7;
 			remoteInfo = ForgetMedNotWidget;
-		};
-		EF1509C8BD7A4942BE54D49A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BD06B867F0BF4E20A77AC533 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A0AFC64136F44D92A30E4A1A;
-			remoteInfo = ForgetMedNotWatch;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -63,7 +55,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				89B0259CE225446D97BBB2DE /* ForgetMedNotWatch.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -247,7 +238,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D83543E66BC9481BB5A682D4 /* PBXTargetDependency */,
 				DB5853FE8D3D487F84766EF8 /* PBXTargetDependency */,
 			);
 			name = ForgetMedNot;
@@ -362,11 +352,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D83543E66BC9481BB5A682D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A0AFC64136F44D92A30E4A1A /* ForgetMedNotWatch */;
-			targetProxy = EF1509C8BD7A4942BE54D49A /* PBXContainerItemProxy */;
-		};
 		DB5853FE8D3D487F84766EF8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0EF126C2D36542C493636FD7 /* ForgetMedNotWidget */;
@@ -386,7 +371,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = ForgetMedNot/ForgetMedNot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = NMUNAF53M3;
@@ -404,7 +389,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -576,7 +561,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = ForgetMedNot/ForgetMedNot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = NMUNAF53M3;
@@ -600,7 +585,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
