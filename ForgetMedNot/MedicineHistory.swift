@@ -7,17 +7,15 @@
 
 import Foundation
 
-// MARK: - Day Status
-enum DayStatus: String, Codable {
-    case taken
-    case missed
-    case noData
+struct DayRecord: Codable {
+    var takenCount: Int
+    var doseCount: Int
 }
 
-// MARK: - Medicine History Manager
 class MedicineHistory: ObservableObject {
     private let suite: UserDefaults
-    private let historyKey = "medicineTrackerHistory"
+    private let historyKey = "medicineTrackerHistoryV2"
+    private let legacyHistoryKey = "medicineTrackerHistory"
 
     private static let dateKeyFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -32,95 +30,108 @@ class MedicineHistory: ObservableObject {
             assertionFailure("Failed to open App Group suite 'group.com.toddfeliciano.ForgetMedNot' — check entitlements/App Group configuration. Falling back to standard UserDefaults; widget will not see this data.")
             suite = .standard
         }
+        migrateIfNeeded()
     }
 
-    func loadHistory() -> [String: DayStatus] {
-        guard let raw = suite.dictionary(forKey: historyKey) as? [String: String] else {
+    private func migrateIfNeeded() {
+        guard suite.data(forKey: historyKey) == nil else { return }
+        guard let oldRaw = suite.dictionary(forKey: legacyHistoryKey) as? [String: String] else { return }
+
+        var migrated: [String: DayRecord] = [:]
+        for (dateKey, status) in oldRaw {
+            let takenCount = status == "taken" ? 1 : 0
+            migrated[dateKey] = DayRecord(takenCount: takenCount, doseCount: 1)
+        }
+        saveHistory(migrated)
+    }
+
+    func loadHistory() -> [String: DayRecord] {
+        guard let data = suite.data(forKey: historyKey),
+              let decoded = try? JSONDecoder().decode([String: DayRecord].self, from: data) else {
             return [:]
         }
-        var result: [String: DayStatus] = [:]
-        for (key, value) in raw {
-            result[key] = DayStatus(rawValue: value) ?? .noData
-        }
-        return result
+        return decoded
     }
 
-    func recordTaken(at time: String) {
-        var history = loadRaw()
-        history[dateKey(for: Date())] = DayStatus.taken.rawValue
-        suite.set(history, forKey: historyKey)
+    private func saveHistory(_ history: [String: DayRecord]) {
+        guard let data = try? JSONEncoder().encode(history) else { return }
+        suite.set(data, forKey: historyKey)
+    }
+
+    func recordDoseTaken(doseCount: Int) {
+        var history = loadHistory()
+        let key = dateKey(for: Date())
+        var record = history[key] ?? DayRecord(takenCount: 0, doseCount: doseCount)
+        record.doseCount = doseCount
+        record.takenCount = min(record.takenCount + 1, doseCount)
+        history[key] = record
+        saveHistory(history)
         objectWillChange.send()
     }
 
-    func recordMissed(for date: Date) {
-        var history = loadRaw()
+    func recordMissed(for date: Date, doseCount: Int) {
+        var history = loadHistory()
         let key = dateKey(for: date)
         if history[key] == nil {
-            history[key] = DayStatus.missed.rawValue
-            suite.set(history, forKey: historyKey)
+            history[key] = DayRecord(takenCount: 0, doseCount: doseCount)
+            saveHistory(history)
         }
     }
 
     func clearToday() {
-        var history = loadRaw()
+        var history = loadHistory()
         history.removeValue(forKey: dateKey(for: Date()))
-        suite.set(history, forKey: historyKey)
+        saveHistory(history)
         objectWillChange.send()
     }
 
-    func status(for date: Date) -> DayStatus {
-        let history = loadHistory()
-        return history[dateKey(for: date)] ?? .noData
+    func undoLastDoseToday() {
+        var history = loadHistory()
+        let key = dateKey(for: Date())
+        guard var record = history[key], record.takenCount > 0 else { return }
+        record.takenCount -= 1
+        history[key] = record
+        saveHistory(history)
+        objectWillChange.send()
     }
 
-    func lastDays(_ count: Int) -> [(date: Date, status: DayStatus)] {
-        let history = loadHistory()
-        let calendar = Calendar.current
-        var result: [(date: Date, status: DayStatus)] = []
+    func record(for date: Date) -> DayRecord? {
+        loadHistory()[dateKey(for: date)]
+    }
+    // MARK: - Rolling Stats (for summary notifications)
 
-        // Find the most recent Sunday on or before today
-        let today = Date()
-        let todayWeekday = calendar.component(.weekday, from: today) // 1 = Sunday
-        let daysSinceSunday = todayWeekday - 1
-        guard let mostRecentSunday = calendar.date(byAdding: .day, value: -daysSinceSunday, to: today) else { return [] }
+        /// The last `count` calendar days ending today (inclusive), oldest first.
+        func lastDays(_ count: Int) -> [(date: Date, record: DayRecord?)] {
+            let calendar = Calendar.current
+            let today = Date()
+            let allHistory = loadHistory()
 
-        // Start from that Sunday and go forward count days
-        for i in 0..<count {
-            guard let date = calendar.date(byAdding: .day, value: i, to: mostRecentSunday) else { continue }
-            let key = dateKey(for: date)
-
-            let status: DayStatus
-            if calendar.isDateInToday(date) || date < today {
-                // Past or today — use real status
-                if calendar.isDateInToday(date) {
-                    status = history[key] ?? .noData
-                } else {
-                    status = history[key] ?? .missed
-                }
-            } else {
-                // Future — show as noData (greyed out)
-                status = .noData
+            var result: [(date: Date, record: DayRecord?)] = []
+            for offset in stride(from: count - 1, through: 0, by: -1) {
+                guard let date = calendar.date(byAdding: .day, value: -offset, to: today) else { continue }
+                let key = dateKey(for: date)
+                result.append((date: date, record: allHistory[key]))
             }
-
-            result.append((date: date, status: status))
+            return result
         }
 
-        return result
-    }
-
-    func stats(forLastDays count: Int) -> (taken: Int, missed: Int, noData: Int) {
-        let days = lastDays(count)
-        let taken = days.filter { $0.status == .taken }.count
-        let missed = days.filter { $0.status == .missed }.count
-        let noData = days.filter { $0.status == .noData }.count
-        return (taken: taken, missed: missed, noData: noData)
-    }
-
-    private func loadRaw() -> [String: String] {
-        return suite.dictionary(forKey: historyKey) as? [String: String] ?? [:]
-    }
+        /// A day counts as "taken" only if all doses were completed that day;
+        /// anything else (partial or zero) counts as "missed" for this summary.
+        func stats(forLastDays count: Int) -> (taken: Int, missed: Int) {
+            let days = lastDays(count)
+            var taken = 0
+            var missed = 0
+            for day in days {
+                guard let record = day.record, record.doseCount > 0, record.takenCount >= record.doseCount else {
+                    missed += 1
+                    continue
+                }
+                taken += 1
+            }
+            return (taken: taken, missed: missed)
+        }
 
     func dateKey(for date: Date) -> String {
-        return Self.dateKeyFormatter.string(from: date)
+        Self.dateKeyFormatter.string(from: date)
     }
 }
