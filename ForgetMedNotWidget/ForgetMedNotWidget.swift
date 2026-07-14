@@ -87,9 +87,6 @@ struct ForgetMedNotWidgetView: View {
     var body: some View {
         VStack {
             HStack {
-                WidgetProgressRing(takenCount: entry.takenCount, doseCount: entry.doseCount)
-                    .frame(width: 36, height: 36)
-
                 if !allTaken {
                     Button(intent: TakeMedicineIntent()) {
                         Text("Log It")
@@ -101,16 +98,18 @@ struct ForgetMedNotWidgetView: View {
                             .cornerRadius(8)
                     }
                     .buttonStyle(.plain)
-                } else if let time = entry.lastDoseTime {
-                    Text("Done at\n\(time)")
+                } else {
+                    Text("All doses taken!")
                         .font(.caption2)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
                         .padding(6)
                         .cornerRadius(8)
                 }
-
-                Spacer()
+                Spacer ()
+                
+                WidgetProgressRing(takenCount: entry.takenCount, doseCount: entry.doseCount)
+                    .frame(width: 36, height: 36)
             }
             Spacer()
         }

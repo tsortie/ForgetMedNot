@@ -76,9 +76,9 @@ struct iOSForgetMedNotView: View {
                         .foregroundColor(.black.opacity(0.75))
                 } else {
                     Text("Not logged yet")
-                        .font(.body)
-                        .foregroundColor(.black)
-                        .fontWeight(.medium)
+                        .font(.caption)
+                        .foregroundColor(.black.opacity(0.75))
+                        .fontWeight(.bold)
                 }
 
                 Spacer()
@@ -87,12 +87,13 @@ struct iOSForgetMedNotView: View {
                     if !manager.allTaken {
                         Button(action: { manager.recordDoseTaken() }) {
                             Text(manager.doseCount == 1 ? "Log it" : "Log dose \(manager.takenCountToday + 1) of \(manager.doseCount)")
-                                .font(.headline)
+                                .font(.subheadline)
                                 .frame(maxWidth: 220)
                                 .padding(.vertical, 10)
-                                .background(Color.blue.opacity(0.7))
+                                .background(Color.blue.opacity(0.5))
                                 .foregroundColor(.black)
                                 .cornerRadius(12)
+                                .fontWeight(.bold)
                         }
                     }
 
@@ -111,6 +112,7 @@ struct iOSForgetMedNotView: View {
                                 .background(Color.red.opacity(0.5))
                                 .foregroundColor(.black)
                                 .cornerRadius(12)
+                                .fontWeight(.bold)
                         }
                         .confirmationDialog(
                             "Are you sure you want to clear today's log?",
