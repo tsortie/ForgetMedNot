@@ -4,6 +4,55 @@ import Combine
 import WidgetKit
 
 class MedicineManager: ObservableObject {
+    enum SummaryFrequency: String {
+        case weekly
+        
+        var days: Int {
+            return 7
+        }
+        
+        var label: String {
+            return "Weekly"
+        }
+    }
+
+    private func syncSummaryNotificationState() {
+        let enabled = UserDefaults.standard.bool(forKey: "summaryEnabled")
+        guard enabled else {
+            NotificationManager.shared.cancelSummaryNotification()
+            return
+        }
+        
+        let frequency = SummaryFrequency.weekly
+        let anchorInterval = UserDefaults.standard.double(forKey: "summaryAnchorInterval")
+        
+        guard anchorInterval > 0 else {
+            NotificationManager.shared.cancelSummaryNotification()
+            return
+        }
+        
+        let anchor = Date(timeIntervalSince1970: anchorInterval)
+        let nextDate = Self.nextSummaryDate(anchor: anchor, intervalDays: frequency.days)
+        
+        let stats = history.stats(forLastDays: frequency.days)
+        
+        NotificationManager.shared.scheduleSummaryNotification(
+            at: nextDate,
+            taken: stats.taken,
+            missed: stats.missed,
+            periodLabel: frequency.label
+        )
+    }
+
+    // Rolling forward: keeps the same weekday/time, spaced by the interval,
+    // always returning the next occurrence in the future.
+    static func nextSummaryDate(anchor: Date, intervalDays: Int, now: Date = Date()) -> Date {
+        if anchor > now { return anchor }
+        let secondsPerInterval = Double(intervalDays) * 86400
+        let elapsed = now.timeIntervalSince(anchor)
+        let periodsElapsed = floor(elapsed / secondsPerInterval) + 1
+        return anchor.addingTimeInterval(periodsElapsed * secondsPerInterval)
+    }
     @Published var tookMedicineToday = false
     @Published var medicineTime: String? = nil
     
@@ -51,6 +100,7 @@ class MedicineManager: ObservableObject {
         }
         
         syncReminderState()
+        syncSummaryNotificationState()
     }
     
     private func syncReminderState() {
