@@ -28,15 +28,23 @@ struct TakeMedicineIntent: AppIntent {
         suite.set(now, forKey: "medicineTrackerDate")
         suite.set(Self.timeFormatter.string(from: now), forKey: "medicineTrackerTime")
 
-        // Also record in the history dictionary so HistoryView reflects
-        // taps that originate from the widget (previously only the
-        // legacy date/time keys were updated here).
         let historyKey = "medicineTrackerHistory"
         let todayKey = Self.dateKeyFormatter.string(from: now)
 
         var history = suite.dictionary(forKey: historyKey) as? [String: String] ?? [:]
         history[todayKey] = "taken"
         suite.set(history, forKey: historyKey)
+
+        // Reschedule for tomorrow (not just cancel) so the reminder series
+        // survives even if the app isn't opened for several days.
+        let enabled = suite.bool(forKey: "notificationEnabled")
+        let timeInterval = suite.double(forKey: "notificationTimeInterval")
+        if enabled, timeInterval > 0 {
+            let time = Date(timeIntervalSince1970: timeInterval)
+            NotificationManager.shared.scheduleDailyReminder(at: time, skipToday: true)
+        } else {
+            NotificationManager.shared.cancelReminder()
+        }
 
         WidgetCenter.shared.reloadAllTimelines()
         return .result()

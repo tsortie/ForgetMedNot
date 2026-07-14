@@ -104,20 +104,16 @@ class MedicineManager: ObservableObject {
     }
     
     private func syncReminderState() {
-        let enabled = UserDefaults.standard.bool(forKey: "notificationEnabled")
-        let timeInterval = UserDefaults.standard.double(forKey: "notificationTimeInterval")
+        let enabled = suite.bool(forKey: "notificationEnabled")
+        let timeInterval = suite.double(forKey: "notificationTimeInterval")
         
         guard enabled, timeInterval > 0 else {
             NotificationManager.shared.cancelReminder()
             return
         }
         
-        if tookMedicineToday {
-            NotificationManager.shared.cancelReminder()
-        } else {
-            let time = Date(timeIntervalSince1970: timeInterval)
-            NotificationManager.shared.scheduleDailyReminder(at: time)
-        }
+        let time = Date(timeIntervalSince1970: timeInterval)
+        NotificationManager.shared.scheduleDailyReminder(at: time, skipToday: tookMedicineToday)
     }
     
     func recordMedicineTaken() {

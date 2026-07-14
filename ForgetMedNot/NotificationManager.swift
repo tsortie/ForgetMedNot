@@ -14,17 +14,32 @@ class NotificationManager {
         }
     }
     
-    func scheduleDailyReminder(at time: Date) {
+    // MARK: - Daily Reminder
+    
+    func scheduleDailyReminder(at time: Date, skipToday: Bool) {
         cancelReminder()
+        
+        let calendar = Calendar.current
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: time)
+        
+        var targetDate = calendar.date(
+            bySettingHour: timeComponents.hour ?? 9,
+            minute: timeComponents.minute ?? 0,
+            second: 0,
+            of: Date()
+        ) ?? Date()
+        
+        if skipToday || targetDate <= Date() {
+            targetDate = calendar.date(byAdding: .day, value: 1, to: targetDate) ?? targetDate
+        }
         
         let content = UNMutableNotificationContent()
         content.title = "Medicine Reminder"
         content.body = "Don't forget to take your medicine today!"
         content.sound = .default
         
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.hour, .minute], from: time)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+        let fireComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: targetDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: fireComponents, repeats: false)
         
         let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in

@@ -29,11 +29,15 @@ struct SettingsView: View {
     
     @ObservedObject var manager: MedicineManager
     
-    @AppStorage("notificationEnabled") private var notificationEnabled = false
-    @AppStorage("notificationTimeInterval") private var notificationTimeInterval: Double = Date().timeIntervalSince1970
+    @AppStorage("notificationEnabled", store: UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot"))
+    private var notificationEnabled = false
+
+    @AppStorage("notificationTimeInterval", store: UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot"))
+    private var notificationTimeInterval: Double = Date().timeIntervalSince1970
     
     @State private var notificationTime: Date = {
-        let stored = UserDefaults.standard.double(forKey: "notificationTimeInterval")
+        let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")
+        let stored = suite?.double(forKey: "notificationTimeInterval") ?? 0
         if stored > 0 {
             return Date(timeIntervalSince1970: stored)
         }
@@ -122,11 +126,7 @@ struct SettingsView: View {
     }
     
     private func scheduleIfNeeded() {
-        if manager.tookMedicineToday {
-            NotificationManager.shared.cancelReminder()
-        } else {
-            NotificationManager.shared.scheduleDailyReminder(at: notificationTime)
-        }
+        NotificationManager.shared.scheduleDailyReminder(at: notificationTime, skipToday: manager.tookMedicineToday)
     }
     
     private var formattedTime: String {
