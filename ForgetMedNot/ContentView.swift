@@ -22,7 +22,6 @@ struct ProgressRing: View {
             VStack(spacing: 2) {
                 Text("\(takenCount)/\(doseCount)")
                     .font(.title2)
-                    .fontWeight(.bold)
                     .foregroundColor(.black.opacity(0.8))
                 Text(doseCount == 1 ? "dose" : "doses")
                     .font(.caption2)
@@ -40,6 +39,9 @@ struct iOSForgetMedNotView: View {
     @State private var showingSettings = false
     @State private var showingClearConfirmation = false
 
+    private let backgroundSourceSize = CGSize(width: 1024, height: 1024)
+    private let mugSourcePoint = CGPoint(x: 585, y: 535)
+    
     var body: some View {
         ZStack {
             Image(manager.allTaken ? "app_taken" : "app_not_taken")
@@ -48,6 +50,16 @@ struct iOSForgetMedNotView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .clipped()
                 .ignoresSafeArea()
+
+            GeometryReader { geo in
+                let mugPos = fillPosition(
+                    sourceSize: backgroundSourceSize,
+                    containerSize: geo.size,
+                    sourcePoint: mugSourcePoint
+                )
+                SteamAnimationView(mugCenterX: mugPos.x, mugCenterY: mugPos.y)
+            }
+            .ignoresSafeArea()
 
             VStack(spacing: 40) {
                 HStack {
@@ -70,10 +82,10 @@ struct iOSForgetMedNotView: View {
                 ProgressRing(takenCount: manager.takenCountToday, doseCount: manager.doseCount)
 
                 if let time = manager.lastDoseTime {
-                    Text(manager.allTaken ? "All doses taken — last at \(time)" : "Last dose at \(time)")
+                    Text(manager.allTaken ? "All doses taken! — last at \(time)" : "Last dose at \(time)")
                         .font(.caption)
-                        .fontWeight(.bold)
                         .foregroundColor(.black.opacity(0.75))
+                        .fontWeight(.bold)
                 } else {
                     Text("Not logged yet")
                         .font(.caption)
@@ -87,11 +99,11 @@ struct iOSForgetMedNotView: View {
                     if !manager.allTaken {
                         Button(action: { manager.recordDoseTaken() }) {
                             Text(manager.doseCount == 1 ? "Log it" : "Log dose \(manager.takenCountToday + 1) of \(manager.doseCount)")
-                                .font(.subheadline)
+                                .font(.caption)
                                 .frame(maxWidth: 220)
                                 .padding(.vertical, 10)
-                                .background(Color.blue.opacity(0.5))
-                                .foregroundColor(.black)
+                                .background(Color.black.opacity(0.4))
+                                .foregroundColor(.white)
                                 .cornerRadius(12)
                                 .fontWeight(.bold)
                         }
@@ -106,11 +118,11 @@ struct iOSForgetMedNotView: View {
                             }
                         }) {
                             Text(manager.allTaken ? "Clear Today's Log" : "Undo Last Dose")
-                                .font(.subheadline)
+                                .font(.caption)
                                 .frame(maxWidth: 220)
                                 .padding(.vertical, 8)
                                 .background(Color.red.opacity(0.5))
-                                .foregroundColor(.black)
+                                .foregroundColor(.white)
                                 .cornerRadius(12)
                                 .fontWeight(.bold)
                         }
@@ -145,4 +157,16 @@ struct iOSForgetMedNotView: View {
             }
         }
     }
+}
+
+func fillPosition(sourceSize: CGSize, containerSize: CGSize, sourcePoint: CGPoint) -> CGPoint {
+    let scale = max(containerSize.width / sourceSize.width, containerSize.height / sourceSize.height)
+    let scaledWidth = sourceSize.width * scale
+    let scaledHeight = sourceSize.height * scale
+    let offsetX = (scaledWidth - containerSize.width) / 2
+    let offsetY = (scaledHeight - containerSize.height) / 2
+    return CGPoint(
+        x: sourcePoint.x * scale - offsetX,
+        y: sourcePoint.y * scale - offsetY
+    )
 }
