@@ -1,5 +1,37 @@
 import SwiftUI
 
+struct ProgressRing: View {
+    let takenCount: Int
+    let doseCount: Int
+
+    private var progress: CGFloat {
+        doseCount > 0 ? CGFloat(takenCount) / CGFloat(doseCount) : 0
+    }
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(Color.black.opacity(0.15), lineWidth: 10)
+
+            Circle()
+                .trim(from: 0, to: progress)
+                .stroke(Color.green, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+                .animation(.easeInOut, value: takenCount)
+
+            VStack(spacing: 2) {
+                Text("\(takenCount)/\(doseCount)")
+                    .font(.title2)
+                    .foregroundColor(.black.opacity(0.8))
+                Text(doseCount == 1 ? "dose" : "doses")
+                    .font(.caption2)
+                    .foregroundColor(.black.opacity(0.6))
+            }
+        }
+        .frame(width: 120, height: 120)
+    }
+}
+
 struct iOSForgetMedNotView: View {
     @StateObject private var manager = MedicineManager()
     @Environment(\.scenePhase) var scenePhase
@@ -12,14 +44,13 @@ struct iOSForgetMedNotView: View {
     
     var body: some View {
         ZStack {
-            Image(manager.tookMedicineToday ? "app_taken" : "app_not_taken")
+            Image(manager.allTaken ? "app_taken" : "app_not_taken")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .clipped()
                 .ignoresSafeArea()
-            
-            // REMOVED CONDITION: This now persists the steam for BOTH screens smoothly
+
             GeometryReader { geo in
                 let mugPos = fillPosition(
                     sourceSize: backgroundSourceSize,
@@ -48,56 +79,63 @@ struct iOSForgetMedNotView: View {
                 .padding(.horizontal)
                 .padding(.top, 8)
 
-                VStack(spacing: 8) {
-                    Image(systemName: manager.tookMedicineToday ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 50))
-                        .foregroundColor(.green)
-                    if let time = manager.medicineTime {
-                        Text("Taken at \n\(time)")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(.black.opacity(0.75))
-                    }
-                }
+                ProgressRing(takenCount: manager.takenCountToday, doseCount: manager.doseCount)
 
-                if !manager.tookMedicineToday {
+                if let time = manager.lastDoseTime {
+                    Text(manager.allTaken ? "All doses taken! — last at \(time)" : "Last dose at \(time)")
+                        .font(.caption)
+                        .foregroundColor(.black.opacity(0.75))
+                        .fontWeight(.bold)
+                } else {
                     Text("Not logged yet")
-                        .font(.body)
-                        .foregroundColor(.black)
-                        .fontWeight(.medium)
+                        .font(.caption)
+                        .foregroundColor(.black.opacity(0.75))
+                        .fontWeight(.bold)
                 }
 
                 Spacer()
 
-                if !manager.tookMedicineToday {
-                    Button(action: { manager.recordMedicineTaken() }) {
-                        Text("Log it")
-                            .font(.headline)
-                            .frame(maxWidth: 160)
-                            .padding(.vertical, 10)
-                            .background(Color.blue.opacity(0.7))
-                            .foregroundColor(.black)
-                            .cornerRadius(12)
-                    }
-                } else {
-                    Button(action: { showingClearConfirmation = true }) {
-                        Text("Clear Today's Log")
-                            .font(.headline)
-                            .frame(maxWidth: 160)
-                            .padding(.vertical, 10)
-                            .background(Color.red.opacity(0.5))
-                            .foregroundColor(.black)
-                            .cornerRadius(12)
-                    }
-                    .confirmationDialog(
-                        "Are you sure you want to clear today's log?",
-                        isPresented: $showingClearConfirmation,
-                        titleVisibility: .visible
-                    ) {
-                        Button("Clear Log", role: .destructive) {
-                            manager.clearToday()
+                VStack(spacing: 12) {
+                    if !manager.allTaken {
+                        Button(action: { manager.recordDoseTaken() }) {
+                            Text(manager.doseCount == 1 ? "Log it" : "Log dose \(manager.takenCountToday + 1) of \(manager.doseCount)")
+                                .font(.caption)
+                                .frame(maxWidth: 220)
+                                .padding(.vertical, 10)
+                                .background(Color.black.opacity(0.4))
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                                .fontWeight(.bold)
                         }
-                        Button("Cancel", role: .cancel) {}
+                    }
+
+                    if manager.takenCountToday > 0 {
+                        Button(action: {
+                            if manager.takenCountToday == manager.doseCount {
+                                showingClearConfirmation = true
+                            } else {
+                                manager.undoLastDose()
+                            }
+                        }) {
+                            Text(manager.allTaken ? "Clear Today's Log" : "Undo Last Dose")
+                                .font(.caption)
+                                .frame(maxWidth: 220)
+                                .padding(.vertical, 8)
+                                .background(Color.red.opacity(0.5))
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                                .fontWeight(.bold)
+                        }
+                        .confirmationDialog(
+                            "Are you sure you want to clear today's log?",
+                            isPresented: $showingClearConfirmation,
+                            titleVisibility: .visible
+                        ) {
+                            Button("Clear Log", role: .destructive) {
+                                manager.clearToday()
+                            }
+                            Button("Cancel", role: .cancel) {}
+                        }
                     }
                 }
             }

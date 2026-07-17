@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5C4E5E5A3006E4F50095A4BA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC512FF60D2800CE46F4 /* NotificationManager.swift */; };
+		5C4E5E5B3006F4540095A4BA /* MedicineHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71AC4D2FF6025300CE46F4 /* MedicineHistory.swift */; };
 		5C5324102FF97C5100EA2974 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C53240F2FF97C5100EA2974 /* Assets.xcassets */; };
 		5C5324122FF9823800EA2974 /* MedNotIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5324112FF9823800EA2974 /* MedNotIntent.swift */; };
 		5C6EA2D92FEF4FF40042D33C /* ForgetMedNotWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 65D4DC31387F4CEBA297C160 /* ForgetMedNotWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -346,6 +347,7 @@
 			files = (
 				934CEEF0CDEE49D7A65C516E /* ForgetMedNotWidget.swift in Sources */,
 				F9F1134B0468471792AF3852 /* ForgetMedNotWidgetBundle.swift in Sources */,
+				5C4E5E5B3006F4540095A4BA /* MedicineHistory.swift in Sources */,
 				5C4E5E5A3006E4F50095A4BA /* NotificationManager.swift in Sources */,
 				5C5324122FF9823800EA2974 /* MedNotIntent.swift in Sources */,
 			);
@@ -388,7 +390,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -583,7 +585,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.toddfeliciano.ForgetMedNot;
 				PRODUCT_NAME = "$(TARGET_NAME)";

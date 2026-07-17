@@ -8,169 +8,94 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("summaryEnabled") private var summaryEnabled = false
-    @AppStorage("summaryFrequency") private var summaryFrequencyRaw = MedicineManager.SummaryFrequency.weekly.rawValue
-    @AppStorage("summaryAnchorInterval") private var summaryAnchorInterval: Double = 0
-
-    @State private var summaryAnchorDate: Date = {
-        let stored = UserDefaults.standard.double(forKey: "summaryAnchorInterval")
-        if stored > 0 {
-            return Date(timeIntervalSince1970: stored)
-        }
-        // Default: next Sunday at 6pm
-        var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-        components.hour = 18
-        components.minute = 00
-        let today = Calendar.current.date(from: components) ?? Date()
-        let weekday = Calendar.current.component(.weekday, from: today)
-        let daysUntilSunday = (8 - weekday) % 7
-        return Calendar.current.date(byAdding: .day, value: daysUntilSunday, to: today) ?? today
-    }()
-    
     @ObservedObject var manager: MedicineManager
-    
+
     @AppStorage("notificationEnabled", store: UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot"))
     private var notificationEnabled = false
 
-    @AppStorage("notificationTimeInterval", store: UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot"))
-    private var notificationTimeInterval: Double = Date().timeIntervalSince1970
-    
-    @State private var notificationTime: Date = {
-        let suite = UserDefaults(suiteName: "group.com.toddfeliciano.ForgetMedNot")
-        let stored = suite?.double(forKey: "notificationTimeInterval") ?? 0
-        if stored > 0 {
-            return Date(timeIntervalSince1970: stored)
-        }
-        var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-        components.hour = 9
-        components.minute = 0
-        return Calendar.current.date(from: components) ?? Date()
-    }()
-    
-    private static let timeFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter
-    }()
-    
-    // Ordered to match MTWRFSS layout logic
-    private let weekdays = [
-        (2, "Monday"), (3, "Tuesday"), (4, "Wednesday"),
-        (5, "Thursday"), (6, "Friday"), (7, "Saturday"), (1, "Sunday")
-    ]
-    
+    @AppStorage("summaryEnabled") private var summaryEnabled = false
+
+    @State private var doseTimes: [Date] = []
+
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    Toggle("Daily Reminder", isOn: $notificationEnabled)
+                    Toggle("Reminders", isOn: $notificationEnabled)
                         .onChange(of: notificationEnabled) { _, enabled in
                             if enabled {
                                 NotificationManager.shared.requestPermission()
-                                scheduleIfNeeded()
-                            } else {
-                                NotificationManager.shared.cancelReminder()
                             }
+                            manager.loadTodayStatus() // triggers syncReminderState with new toggle value
                         }
                     
                     if notificationEnabled {
-                        DatePicker(
-                            "Remind me at",
-                            selection: $notificationTime,
-                            displayedComponents: .hourAndMinute
+                        Stepper(
+                            "Doses per day: \(manager.doseCount)",
+                            value: Binding(
+                                get: { manager.doseCount },
+                                set: { manager.setDoseCount($0) }
+                            ),
+                            in: 1...5
                         )
-                        .onChange(of: notificationTime) { _, newTime in
-                            notificationTimeInterval = newTime.timeIntervalSince1970
-                            scheduleIfNeeded()
+                        
+                        ForEach(0..<manager.doseCount, id: \.self) { index in
+                            DatePicker(
+                                doseLabel(for: index),
+                                selection: Binding(
+                                    get: { doseTimes.indices.contains(index) ? doseTimes[index] : manager.doseTime(for: index) },
+                                    set: { newTime in
+                                        if doseTimes.indices.contains(index) {
+                                            doseTimes[index] = newTime
+                                        }
+                                        manager.setDoseTime(newTime, for: index)
+                                    }
+                                ),
+                                displayedComponents: .hourAndMinute
+                            )
                         }
                     }
                 } header: {
                     Text("Notifications")
                 } footer: {
                     if notificationEnabled {
-                        if manager.tookMedicineToday {
-                            Text("You've already logged your medicine today, so no reminder will fire until tomorrow.")
+                        if manager.allTaken {
+                            Text("You've logged all of today's doses, so no more reminders will fire until tomorrow.")
                         } else {
-                            Text("You'll receive a reminder at \(formattedTime) if you haven't recorded taking your medicine.")
+                            Text("You'll be reminded for each dose you haven't logged yet.")
                         }
                     } else {
-                        Text("Enable to receive a daily reminder if you haven't recorded taking your medicine.")
+                        Text("Enable to receive reminders for each dose throughout the day.")
                     }
                 }
+                
                 Section {
                     Toggle("Progress Summary", isOn: $summaryEnabled)
                         .onChange(of: summaryEnabled) { _, enabled in
-                            if enabled {
-                                lockAnchorToNextSunday()
-                            } else {
+                            if !enabled {
                                 NotificationManager.shared.cancelSummaryNotification()
                             }
+                            manager.loadTodayStatus()
                         }
-                    
-                    if summaryEnabled {
-                    }
                 } header: {
                     Text("Progress Summary")
                 } footer: {
                     if summaryEnabled {
-                        Text("You'll get a summary every \(summaryFrequencyRaw == MedicineManager.SummaryFrequency.weekly.rawValue ? "week" : "two weeks") on Sunday at 6:00 PM.")
+                        Text("You'll get a weekly summary of your progress every Sunday at 6:00 PM.")
                     } else {
-                        Text("Get a periodic recap of your medicine-taking consistency.")
+                        Text("Get a weekly recap of your medicine-taking consistency, every Sunday at 6:00 PM.")
                     }
                 }
-
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.large)
-        }
-    }
-    
-    private func scheduleIfNeeded() {
-        NotificationManager.shared.scheduleDailyReminder(at: notificationTime, skipToday: manager.tookMedicineToday)
-    }
-    
-    private var formattedTime: String {
-        Self.timeFormatter.string(from: notificationTime)
-    }
-    
-    // MARK: - Date Mutators
-
-    private func lockAnchorToNextSunday() {
-        let calendar = Calendar.current
-        
-        // 1. Get today's date context stripped down to the calendar day
-        var components = calendar.dateComponents([.year, .month, .day], from: Date())
-        components.hour = 18
-        components.minute = 00
-        components.second = 0
-        
-        guard let todayWithTargetTime = calendar.date(from: components) else { return }
-        
-        // 2. Calculate the exact remaining days until the upcoming Sunday
-        let currentWeekday = calendar.component(.weekday, from: todayWithTargetTime)
-        let daysUntilSunday = (8 - currentWeekday) % 7
-        
-        // 3. Finalize the exact absolute date stamp object
-        if let upcomingSunday = calendar.date(byAdding: .day, value: daysUntilSunday, to: todayWithTargetTime) {
-            summaryAnchorDate = upcomingSunday
-            summaryAnchorInterval = upcomingSunday.timeIntervalSince1970
-            DispatchQueue.main.async {
-                manager.loadTodayStatus()
-            } // Sync downstream manager states
+            .onAppear {
+                doseTimes = (0..<5).map { manager.doseTime(for: $0) }
+            }
         }
     }
 
-    private func updateTime(to newTime: Date) {
-        let calendar = Calendar.current
-        let timeComponents = calendar.dateComponents([.hour, .minute], from: newTime)
-        
-        if let updatedDate = calendar.date(bySettingHour: timeComponents.hour ?? 0,
-            minute: timeComponents.minute ?? 0,
-            second: 0,
-            of: summaryAnchorDate) {
-            summaryAnchorDate = updatedDate
-            summaryAnchorInterval = updatedDate.timeIntervalSince1970
-            manager.loadTodayStatus()
-        }
+    private func doseLabel(for index: Int) -> String {
+        manager.doseCount == 1 ? "Remind me at" : "Dose \(index + 1) at"
     }
 }

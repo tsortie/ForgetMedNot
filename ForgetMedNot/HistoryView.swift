@@ -1,5 +1,22 @@
 import SwiftUI
 
+struct PieSlice: Shape {
+    var progress: CGFloat // 0...1
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        let radius = min(rect.width, rect.height) / 2
+        let startAngle = Angle(degrees: -90) // start at top
+        let endAngle = Angle(degrees: -90 + (360 * Double(progress)))
+
+        path.move(to: center)
+        path.addArc(center: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        path.closeSubpath()
+        return path
+    }
+}
+
 struct HistoryView: View {
     @ObservedObject var history: MedicineHistory
     
@@ -9,7 +26,7 @@ struct HistoryView: View {
         return formatter
     }()
     
-    private func buildCurrentMonthDays() -> [(date: Date, status: DayStatus)] {
+    private func buildCurrentMonthDays() -> [(date: Date, record: DayRecord?)] {
         let calendar = Calendar.current
         let now = Date()
         let components = calendar.dateComponents([.year, .month], from: now)
@@ -18,22 +35,20 @@ struct HistoryView: View {
             return []
         }
         
-        let allHistory = history.loadHistory() // load once, not once per day
+        let allHistory = history.loadHistory()
         
-        var result: [(date: Date, status: DayStatus)] = []
+        var result: [(date: Date, record: DayRecord?)] = []
         for i in 0..<daysInMonth {
             guard let date = calendar.date(byAdding: .day, value: i, to: firstOfMonth) else { continue }
-            let status = allHistory[history.dateKey(for: date)] ?? .noData
             let isFuture = calendar.compare(date, to: now, toGranularity: .day) == .orderedDescending
-            let resolvedStatus: DayStatus
+            
             if isFuture {
-                resolvedStatus = .noData
-            } else if calendar.isDateInToday(date) {
-                resolvedStatus = status
-            } else {
-                resolvedStatus = status == .taken ? .taken : .missed
+                result.append((date: date, record: nil))
+                continue
             }
-            result.append((date: date, status: resolvedStatus))
+            
+            let key = history.dateKey(for: date)
+            result.append((date: date, record: allHistory[key]))
         }
         return result
     }
@@ -42,23 +57,36 @@ struct HistoryView: View {
         Self.monthTitleFormatter.string(from: Date())
     }
     
-    private func stats(for days: [(date: Date, status: DayStatus)]) -> (taken: Int, missed: Int) {
+    private func stats(for days: [(date: Date, record: DayRecord?)]) -> (full: Int, partial: Int, missed: Int) {
         let now = Date()
         let calendar = Calendar.current
         let pastDays = days.filter {
             calendar.compare($0.date, to: now, toGranularity: .day) != .orderedDescending
         }
-        let taken = pastDays.filter { $0.status == .taken }.count
-        let missed = pastDays.filter { $0.status == .missed }.count
-        return (taken: taken, missed: missed)
+        
+        var full = 0, partial = 0, missed = 0
+        for day in pastDays {
+            guard let record = day.record, record.doseCount > 0 else {
+                missed += 1
+                continue
+            }
+            if record.takenCount >= record.doseCount {
+                full += 1
+            } else if record.takenCount > 0 {
+                partial += 1
+            } else {
+                missed += 1
+            }
+        }
+        return (full: full, partial: partial, missed: missed)
     }
     
-    private func paddedForSundayStart(_ days: [(date: Date, status: DayStatus)]) -> [(date: Date, status: DayStatus)?] {
+    private func paddedForSundayStart(_ days: [(date: Date, record: DayRecord?)]) -> [(date: Date, record: DayRecord?)?] {
         guard let firstDate = days.first?.date else { return [] }
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: firstDate)
         let offset = weekday - 1
-        var result: [(date: Date, status: DayStatus)?] = Array(repeating: nil, count: offset)
+        var result: [(date: Date, record: DayRecord?)?] = Array(repeating: nil, count: offset)
         result += days.map { Optional($0) }
         return result
     }
@@ -70,14 +98,13 @@ struct HistoryView: View {
         
         NavigationView {
             VStack(spacing: 24) {
-                // Stats
-                HStack(spacing: 16) {
-                    StatCard(value: s.taken, label: "Taken", color: .green)
+                HStack(spacing: 12) {
+                    StatCard(value: s.full, label: "Full Days", color: .green)
+                    StatCard(value: s.partial, label: "Partial", color: .orange)
                     StatCard(value: s.missed, label: "Missed", color: .red)
                 }
                 .padding(.horizontal)
                 
-                // Weekday headers
                 HStack {
                     ForEach(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], id: \.self) { day in
                         Text(day)
@@ -88,11 +115,10 @@ struct HistoryView: View {
                 }
                 .padding(.horizontal)
                 
-                // Calendar grid
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 10) {
                     ForEach(0..<paddedDays.count, id: \.self) { i in
                         if let day = paddedDays[i] {
-                            DayDot(date: day.date, status: day.status)
+                            DayDot(date: day.date, record: day.record)
                         } else {
                             Color.clear.frame(width: 32, height: 44)
                         }
@@ -117,15 +143,15 @@ struct StatCard: View {
     var body: some View {
         VStack(spacing: 4) {
             Text("\(value)")
-                .font(.title)
+                .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(color)
             Text(label)
-                .font(.caption)
+                .font(.caption2)
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
-        .padding()
+        .padding(.vertical, 12)
         .background(color.opacity(0.1))
         .cornerRadius(12)
     }
@@ -133,7 +159,7 @@ struct StatCard: View {
 
 struct DayDot: View {
     let date: Date
-    let status: DayStatus
+    let record: DayRecord?
     
     private static let dayLabelFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -148,26 +174,41 @@ struct DayDot: View {
     private var isFuture: Bool {
         Calendar.current.compare(date, to: Date(), toGranularity: .day) == .orderedDescending
     }
-
-    private var dotColor: Color {
-        if isFuture { return .gray.opacity(0.15) }
-        switch status {
-        case .taken: return .green
-        case .missed: return .red
-        case .noData: return .gray.opacity(0.3)
-        }
+    
+    private var progress: CGFloat {
+        guard let record = record, record.doseCount > 0 else { return 0 }
+        return CGFloat(record.takenCount) / CGFloat(record.doseCount)
+    }
+    
+    private var isFullyTaken: Bool {
+        guard let record = record, record.doseCount > 0 else { return false }
+        return record.takenCount >= record.doseCount
     }
 
     var body: some View {
-        VStack(spacing: 4) {
+        ZStack {
             Circle()
-                .fill(dotColor)
+                .fill(isFuture ? Color.gray.opacity(0.1) : Color.gray.opacity(0.15))
                 .frame(width: 32, height: 32)
-                .overlay(
-                    Text(dayLabel)
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundColor(isFuture ? .gray.opacity(0.4) : (status == .noData ? .secondary : .white))
-                )
+            
+            if !isFuture {
+                if isFullyTaken {
+                    Circle()
+                        .fill(Color.green)
+                        .frame(width: 32, height: 32)
+                } else {
+                    // 0 doses through n-1 doses: red pie fill proportional to progress.
+                    // At progress == 0 this renders as no visible fill (just the base gray circle).
+                    PieSlice(progress: progress)
+                        .fill(Color.red.opacity(0.75))
+                        .frame(width: 32, height: 32)
+                        .clipShape(Circle())
+                }
+            }
+            
+            Text(dayLabel)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundColor(isFuture ? .gray.opacity(0.4) : (isFullyTaken ? .white : .primary))
         }
     }
 }
