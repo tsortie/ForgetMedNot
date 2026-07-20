@@ -39,7 +39,8 @@ struct TakeMedicineIntent: AppIntent {
             for index in 0..<doseCount {
                 let alreadyTaken = index < takenCountAfter
                 let time = doseTime(from: suite, index: index)
-                NotificationManager.shared.scheduleDoseReminder(index: index, at: time, skipToday: alreadyTaken)
+                let name = doseName(from: suite, index: index)
+                NotificationManager.shared.scheduleDoseReminder(index: index, at: time, skipToday: alreadyTaken, doseName: name)
             }
         } else {
             NotificationManager.shared.cancelAllDoseReminders(upTo: 5)
@@ -59,5 +60,9 @@ struct TakeMedicineIntent: AppIntent {
         components.hour = defaultHours[min(index, defaultHours.count - 1)]
         components.minute = 0
         return Calendar.current.date(from: components) ?? Date()
+    }
+    
+    private func doseName(from suite: UserDefaults, index: Int) -> String {
+        suite.string(forKey: "doseName_\(index)") ?? "Dose \(index + 1)"
     }
 }

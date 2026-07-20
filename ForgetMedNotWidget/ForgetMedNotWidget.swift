@@ -6,6 +6,7 @@ struct MedicineEntry: TimelineEntry {
     let takenCount: Int
     let doseCount: Int
     let lastDoseTime: String?
+    let nextDoseName: String
 }
 
 struct MedicineProvider: TimelineProvider {
@@ -14,7 +15,7 @@ struct MedicineProvider: TimelineProvider {
     }
 
     func placeholder(in context: Context) -> MedicineEntry {
-        MedicineEntry(date: Date(), takenCount: 0, doseCount: 1, lastDoseTime: nil)
+        MedicineEntry(date: Date(), takenCount: 0, doseCount: 1, lastDoseTime: nil, nextDoseName: "Dose 1")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (MedicineEntry) -> Void) {
@@ -42,11 +43,15 @@ struct MedicineProvider: TimelineProvider {
         let takenCount = record?.takenCount ?? 0
         let lastTime = suite.string(forKey: "medicineTrackerTime")
 
+        let nextIndex = min(takenCount, doseCount - 1)
+        let nextName = suite.string(forKey: "doseName_\(nextIndex)") ?? "Dose \(nextIndex + 1)"
+
         return MedicineEntry(
             date: Date(),
             takenCount: takenCount,
             doseCount: doseCount,
-            lastDoseTime: takenCount > 0 ? lastTime : nil
+            lastDoseTime: takenCount > 0 ? lastTime : nil,
+            nextDoseName: nextName
         )
     }
 }
@@ -89,13 +94,15 @@ struct ForgetMedNotWidgetView: View {
             HStack {
                 if !allTaken {
                     Button(intent: TakeMedicineIntent()) {
-                        Text("Log It")
+                        Text("Log \(entry.nextDoseName)")
                             .font(.caption)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding(6)
                             .background(Color.black.opacity(0.40))
                             .cornerRadius(8)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.7)
                     }
                     .buttonStyle(.plain)
                 } else {

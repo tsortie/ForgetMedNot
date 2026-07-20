@@ -66,6 +66,21 @@ class MedicineManager: ObservableObject {
     }
 
     // MARK: - Dose Count / Times Settings
+    
+    private func doseNameKey(_ index: Int) -> String { "doseName_\(index)" }
+
+    func doseName(for index: Int) -> String {
+        suite.string(forKey: doseNameKey(index)) ?? "Dose \(index + 1)"
+    }
+
+    func setDoseName(_ name: String, for index: Int) {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty {
+            suite.removeObject(forKey: doseNameKey(index)) // falls back to "Dose N"
+        } else {
+            suite.set(trimmed, forKey: doseNameKey(index))
+        }
+    }
 
     func doseTime(for index: Int) -> Date {
         let stored = suite.double(forKey: doseTimeKey(index))
@@ -120,7 +135,8 @@ class MedicineManager: ObservableObject {
             NotificationManager.shared.scheduleDoseReminder(
                 index: index,
                 at: time,
-                skipToday: alreadyTaken
+                skipToday: alreadyTaken,
+                doseName: doseName(for: index)
             )
         }
         if doseCount < 5 {

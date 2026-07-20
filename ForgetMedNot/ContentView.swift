@@ -50,7 +50,8 @@ struct iOSForgetMedNotView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .clipped()
                 .ignoresSafeArea()
-
+                .ignoresSafeArea(.keyboard)
+            
             GeometryReader { geo in
                 let mugPos = fillPosition(
                     sourceSize: backgroundSourceSize,
@@ -98,7 +99,7 @@ struct iOSForgetMedNotView: View {
                 VStack(spacing: 12) {
                     if !manager.allTaken {
                         Button(action: { manager.recordDoseTaken() }) {
-                            Text(manager.doseCount == 1 ? "Log it" : "Log dose \(manager.takenCountToday + 1) of \(manager.doseCount)")
+                            Text(manager.doseCount == 1 ? "Log it" : "Log \(manager.doseName(for: manager.takenCountToday))")
                                 .font(.caption)
                                 .frame(maxWidth: 220)
                                 .padding(.vertical, 10)
@@ -141,6 +142,7 @@ struct iOSForgetMedNotView: View {
             }
             .padding(30)
         }
+        .ignoresSafeArea(.keyboard)
         .sheet(isPresented: $showingHistory) {
             HistoryView(history: manager.history)
         }
@@ -155,6 +157,9 @@ struct iOSForgetMedNotView: View {
             if newPhase == .active {
                 manager.loadTodayStatus()
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .openHistoryFromNotification)) { _ in
+            showingHistory = true
         }
     }
 }

@@ -1,7 +1,11 @@
 import Foundation
 import UserNotifications
 
-class NotificationManager {
+extension Notification.Name {
+    static let openHistoryFromNotification = Notification.Name("openHistoryFromNotification")
+}
+
+class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     static let shared = NotificationManager()
     private let summaryID = "forgetmednot.summary.reminder"
 
@@ -10,11 +14,33 @@ class NotificationManager {
     }
 
     func requestPermission() {
+        UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
                 print("Notification permission error: \(error)")
             }
         }
+    }
+
+    // Called when the user taps a delivered notification.
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        if response.notification.request.identifier == summaryID {
+            NotificationCenter.default.post(name: .openHistoryFromNotification, object: nil)
+        }
+        completionHandler()
+    }
+
+    // Lets notifications still show a banner/sound even while the app is in the foreground.
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound])
     }
 
     // MARK: - Per-Dose Reminders
@@ -23,7 +49,7 @@ class NotificationManager {
     /// today (if the time hasn't passed and skipToday is false) or tomorrow
     /// otherwise. Each dose has its own independent identifier so doses can
     /// be canceled/rescheduled without affecting the others.
-    func scheduleDoseReminder(index: Int, at time: Date, skipToday: Bool) {
+    func scheduleDoseReminder(index: Int, at time: Date, skipToday: Bool, doseName: String) {
         cancelDoseReminder(index: index)
 
         let calendar = Calendar.current
@@ -42,7 +68,7 @@ class NotificationManager {
 
         let content = UNMutableNotificationContent()
         content.title = "Medicine Reminder"
-        content.body = doseBody(for: index)
+        content.body = "Time to take your: \(doseName)"
         content.sound = .default
 
         let fireComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: targetDate)
