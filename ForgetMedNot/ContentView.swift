@@ -23,7 +23,7 @@ struct ProgressRing: View {
                 Text("\(takenCount)/\(doseCount)")
                     .font(.title2)
                     .foregroundColor(.black.opacity(0.8))
-                Text(doseCount == 1 ? "dose" : "doses")
+                Text(doseCount == 1 ? "Medication" : "Medications")
                     .font(.caption2)
                     .foregroundColor(.black.opacity(0.6))
             }
@@ -83,10 +83,11 @@ struct iOSForgetMedNotView: View {
                 ProgressRing(takenCount: manager.takenCountToday, doseCount: manager.doseCount)
 
                 if let time = manager.lastDoseTime {
-                    Text(manager.allTaken ? "All doses taken! — last at \(time)" : "Last dose at \(time)")
+                    Text(manager.allTaken ? "All medications taken! \nLast logged at \(time)" : "Last logged at \(time)")
                         .font(.caption)
                         .foregroundColor(.black.opacity(0.75))
                         .fontWeight(.bold)
+                        .lineLimit(2)
                 } else {
                     Text("Not logged yet")
                         .font(.caption)
@@ -118,7 +119,7 @@ struct iOSForgetMedNotView: View {
                                 manager.undoLastDose()
                             }
                         }) {
-                            Text(manager.allTaken ? "Clear Today's Log" : "Undo Last Dose")
+                            Text(manager.allTaken ? "Clear Today's Log" : "Undo Last Log")
                                 .font(.caption)
                                 .frame(maxWidth: 220)
                                 .padding(.vertical, 8)

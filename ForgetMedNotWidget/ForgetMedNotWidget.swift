@@ -44,7 +44,7 @@ struct MedicineProvider: TimelineProvider {
         let lastTime = suite.string(forKey: "medicineTrackerTime")
 
         let nextIndex = min(takenCount, doseCount - 1)
-        let nextName = suite.string(forKey: "doseName_\(nextIndex)") ?? "Dose \(nextIndex + 1)"
+        let nextName = suite.string(forKey: "doseName_\(nextIndex)") ?? "Medication \(nextIndex + 1)"
 
         return MedicineEntry(
             date: Date(),
@@ -106,7 +106,7 @@ struct ForgetMedNotWidgetView: View {
                     }
                     .buttonStyle(.plain)
                 } else {
-                    Text("All doses taken!")
+                    Text("All meds logged!")
                         .font(.caption2)
                         .fontWeight(.bold)
                         .foregroundColor(.black)

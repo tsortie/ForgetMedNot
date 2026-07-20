@@ -96,9 +96,9 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
 
     private func doseBody(for index: Int) -> String {
         switch index {
-        case 0: return "Don't forget your morning dose!"
-        case 1: return "Time for your next dose."
-        default: return "You have another dose to take today."
+        case 0: return "Don't forget your morning medication!"
+        case 1: return "Time to log your next medication!"
+        default: return "You have another medication to take today"
         }
     }
 
@@ -133,6 +133,6 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             return "No data logged yet — start tracking to see your progress here."
         }
         let percentage = Int((Double(taken) / Double(total)) * 100)
-        return "You took your medicine \(taken) of \(total) days (\(percentage)%). Missed: \(missed)."
+        return "You took your medication \(taken) of \(total) days (\(percentage)%). Missed: \(missed)."
     }
 }

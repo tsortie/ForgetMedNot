@@ -70,7 +70,7 @@ class MedicineManager: ObservableObject {
     private func doseNameKey(_ index: Int) -> String { "doseName_\(index)" }
 
     func doseName(for index: Int) -> String {
-        suite.string(forKey: doseNameKey(index)) ?? "Dose \(index + 1)"
+        suite.string(forKey: doseNameKey(index)) ?? "Medication \(index + 1)"
     }
 
     func setDoseName(_ name: String, for index: Int) {
