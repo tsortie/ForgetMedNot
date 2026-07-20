@@ -68,7 +68,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
 
         let content = UNMutableNotificationContent()
         content.title = "Medicine Reminder"
-        content.body = "Time to take your: \(doseName)"
+        content.body = "Time to take your \(doseName)"
         content.sound = .default
 
         let fireComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: targetDate)
